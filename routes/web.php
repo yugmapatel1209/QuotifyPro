@@ -1,29 +1,34 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{HomeController, QuotationController, EarthQuotationController, ExercisesController1};
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
-Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('om', 'QuotationController');
-Route::post('update_om/{id}', 'QuotationController@update');
-Route::post('delete_om/{id}', 'QuotationController@destroy');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::resource('earth', 'EarthQuotationController');
-Route::post('update_earth/{id}', 'EarthQuotationController@update');
+Route::resource('om', QuotationController::class);
 
-Route::resource('exercises', 'ExercisesController1');
+Route::post('update_om/{id}', [QuotationController::class, 'update']);
+Route::post('delete_om/{id}', [QuotationController::class, 'destroy']);
+
+Route::resource('earth', EarthQuotationController::class);
+Route::post('update_earth/{id}', [EarthQuotationController::class, 'update']);
+
+Route::resource('exercises', ExercisesController1::class);

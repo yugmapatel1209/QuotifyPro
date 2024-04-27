@@ -30,7 +30,7 @@
             <div class="ibox-content">
                 {{-- @include('flash::message') --}}
                 {{-- <form method="POST" id="search-form" class="form-horizontal" role="form">
-                    <div class="form-group"> 
+                    <div class="form-group">
                         <div class="col-md-3">
                             <select class="form-control" id="ModeId" name="ModeId" >
                                 <option value=''>All Mode</option>
@@ -50,7 +50,7 @@
                                     @endforeach
                                 @endif
                             </select>
-                        </div>                       
+                        </div>
                         <div class="col-md-3">
                             <select class="form-control" id="SubjectId" name="SubjectId" >
                                 <option value=''>All Subject</option>
@@ -90,33 +90,28 @@
                                 <option value="0" >Inactive</option>
                             </select>
                         </div>
-                    
-                        <div class="col-md-1">  
+
+                        <div class="col-md-1">
                             <button type="submit" class="btn btn-sm btn-primary ">Apply Filter</button>
                         </div>
-                        <div class="col-md-1">  
+                        <div class="col-md-1">
                             <button type="button" onclick="resetFilter()" class="btn btn-sm btn-primary ">Reset</button>
                         </div>
                     </div>
                     <div class="row"></div>
-                    
+
                 </form>  --}}
                 <table class="table table-striped table-bordered table-hover dataTables-example" id="ascend-tables" style="width:100%">
                     <thead>
                         <tr>
                             <th>Quotation Number</th>
-                            <th>Licence</th>
-                            <th>Address</th>
                             <th>Company</th>
-                            <th>Client Name</th>
-                            <th>Client Address</th>
                             <th>RFQ</th>
                             <th>Date</th>
-                            <th>Valid Until</th>
                             <th>Status</th>
                             <th style="min-width:80px !important;">Action</th>
                         </tr>
-                    </thead>                   
+                    </thead>
                 </table>
             </div>
         </div>
@@ -159,18 +154,13 @@
         },
         columns: [
             { data: 'quotation_number' },
-            { data: 'licence' },
-            { data: 'address' },
             { data: 'client_company' },
-            { data: 'client_name' },
-            { data: 'client_address' },
             { data: 'rfq_number' },
             { data: 'date' },
-            { data: 'valid_until' },
-            {                
+            {
                 "data": "is_active",
                 "render": function (data, type, row) {
-                    return row.is_active == 1 ? '<span class="label label-primary">Active</span>' : '<span class="label label-danger">Inactive</span>';
+                    return row.is_active == 1 ? '<span class="label label-primary">Open</span>' : '<span class="label label-danger">Close</span>';
                 }
             },{
                 "sortable": false,
@@ -201,8 +191,8 @@
         console.log(id);
         var url = APP_URL +'/getSubjectByField/'+ id ;
         $.ajax({
-            url: url, 
-            type: 'POST', 
+            url: url,
+            type: 'POST',
             data: { id:id },
             dataType: 'json',
             success: function(response){
@@ -223,11 +213,11 @@
                 }
             }
         });
-        if (typeof(id) == "undefined") { 
+        if (typeof(id) == "undefined") {
             var url1 = APP_URL +'/getScenarioBySubject/'+ id ;
             $.ajax({
-                url: url1, 
-                type: 'POST', 
+                url: url1,
+                type: 'POST',
                 data: { id:id },
                 dataType: 'json',
                 success: function(response){
@@ -249,7 +239,7 @@
                 }
             });
         }
-     
+
         // oTable.draw();
         // event.preventDefault();
     });
@@ -257,8 +247,8 @@
         var id = $(this).find(':selected').data('id');
         var url = APP_URL +'/getScenarioBySubject/'+ id ;
         $.ajax({
-            url: url, 
-            type: 'POST', 
+            url: url,
+            type: 'POST',
             data: { id:id },
             dataType: 'json',
             success: function(response){
@@ -279,7 +269,7 @@
                 }
             }
         });
-    
+
         // oTable.draw();
         // event.preventDefault();
     });
@@ -292,6 +282,6 @@
         var url = '{{url('delete_earth')}}';
         deleteRecord(id, url, table);
     }
-    
+
 </script>
 @endsection
