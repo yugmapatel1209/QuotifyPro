@@ -3,7 +3,7 @@ namespace App\DataTables;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\QuotationsMaster;
+use App\Models\QuotationsMaster;
 use App\QuotationsDetail;
 
 class OmDataTable
@@ -14,7 +14,7 @@ class OmDataTable
         $data = QuotationsMaster::with('details')->where('company_id',1)->get();
 
         // echo '<pre>';print_r($data->toArray()); die;
-        
+
         return $data;
 
         // $data = QuotationsMaster::with('details')->get();

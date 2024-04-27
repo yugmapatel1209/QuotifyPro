@@ -8,7 +8,7 @@
     <h2><a href="{{ url('/earth') }}">Earth Enterprise</a> / Add</h2>
 </div>
 @endsection
-@section('style') 
+@section('style')
 {{-- <link href="{{env('APP_URL').'/'.'public/css/plugins/summernote/summernote.css' }}" rel="stylesheet"> --}}
 <link href="{{env('APP_URL').'/'.'public/css/plugins/summernote1/summernote.css' }}" rel="stylesheet">
 {{-- <link href="{{env('APP_URL').'/'.'public/css/plugins/summernote/summernote-bs3.css'}}" rel="stylesheet"> --}}
@@ -16,7 +16,7 @@
     .note-editor { background-color: #f3f3f3 !important; }
     .ibox-tools a { font-size:17px; }
     .ibox { box-shadow: 0px 3px 10px 1px #e6e6e6; }
-    
+
 </style>
 @endsection
 @section('content')
@@ -35,23 +35,9 @@ $client_name = $data['client_name'];
             </div> --}}
             <div class="ibox-content">
                 {{-- @include('flash::message')--}}
-                
-                <form role="form" id="form" class="form-horizontal" action="{!! route('earth.store') !!}" method="POST" enctype="multipart/form-data">  
+
+                <form role="form" id="form" class="form-horizontal" action="{!! route('earth.store') !!}" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Licence</label>
-                        <div class="col-sm-10">
-                            <input type="text" data-provide="typeahead"
-                                {{-- data-source='["item 1","item 2","item 3"]' --}}
-                                data-source='{{$data['licence']}}' placeholder="licence..." class="form-control" name="licence" id="licence" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Address </label>
-                        <div class="col-lg-10 col-sm-10">
-                            <textarea class="form-control" id="address" name="address" placeholder="Add Address" ></textarea>
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2">Client Company </label>
                         <div class="col-sm-10">
@@ -64,12 +50,7 @@ $client_name = $data['client_name'];
                             <input type="text" data-provide="typeahead" data-source='{{$data['client_name']}}' placeholder="Client..." class="form-control" id="client_name" name="client_name" />
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Client Address </label>
-                        <div class="col-lg-10 col-sm-10">
-                            <textarea class="form-control" id="client_address" name="client_address" placeholder="Add Client Address" ></textarea>
-                        </div>
-                    </div>
+
                     <div class="form-group">
                         <label class="control-label col-sm-2">RFQ Number </label>
                         <div class="col-sm-5">
@@ -80,11 +61,11 @@ $client_name = $data['client_name'];
                             <input type="text" class="form-control" id="date" name="date" placeholder="Select date" required/>
                         </div>
                     </div>
-                    
-                    <div class="form-group ExercisePrices"> 
+
+                    <div class="form-group ExercisePrices">
                         <label  class="control-label col-sm-2"> Quotation Number</label>
                         <div class="col-sm-5">
-                            <div class="input-group m-b"><span class="input-group-addon">@php echo date("Y",strtotime("-1 year")) .'-'.date("Y") .'/'; @endphp</span> <input type="text"  placeholder="Quotation Number" name="quotation_number" id="quotation_number" value=""  class="form-control" required></div>    
+                            <div class="input-group m-b"><span class="input-group-addon">@php echo date("Y",strtotime("-1 year")) .'-'.date("Y") .'/'; @endphp</span> <input type="text"  placeholder="Quotation Number" name="quotation_number" id="quotation_number" value=""  class="form-control" required></div>
                         </div>
                         <label class="control-label col-sm-1">Valid Until </label>
 
@@ -98,13 +79,18 @@ $client_name = $data['client_name'];
                                 <option value="Month(s)" > Month(s)</option>
                                 <option value="Year(s)" > Year(s)</option>
                             </select>
-                        </div> 
+                        </div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">Is Laterpad Image</label>
+                        <div class="col-sm-10">
+                            <label class="checkbox-inline i-checks"> <input type="checkbox" value="1" name="is_laterpad_image" id="is_laterpad_image" <?php if($Quotation->is_laterpad_image == 1){echo "checked";}?>> Yes </label>
+                        </div>
                     </div>
                     <div class="form-group"><label class="col-sm-2 control-label">Status</label>
                         <div class="col-sm-10">
-                            <label class="checkbox-inline i-checks"> <input type="checkbox" value="1" name="is_active" id="is_active" checked> Yes </label>     
+                            <label class="checkbox-inline i-checks"> <input type="checkbox" value="1" name="is_active" id="is_active" checked> Yes </label>
                             <input type="hidden" name="IsPublish" id="IsPublish" value='0' >
-                        </div>    
+                        </div>
                     </div>
                     <div class="Consecutive ">
                         {{-- <div class="text-center m-t-md" ><h3>Quotation Table</h3></div> --}}
@@ -182,21 +168,21 @@ $client_name = $data['client_name'];
                         <label class="control-label col-sm-2 "></label>
                         <div class="col-sm-2 "><h3>Terms Conditions</h3></div>
                     </div>
-                    <div class="form-group notes removeclass1"> 
-                        <label class="control-label col-sm-3 text-right">Terms and Conditions </label> 
+                    <div class="form-group notes removeclass1">
+                        <label class="control-label col-sm-3 text-right">Terms and Conditions </label>
                         <input type="hidden" id="TermsId" name="TermsId[1]" value="0">
-                        
-                        <div class="form-group col-sm-7">    
+
+                        <div class="form-group col-sm-7">
                             <input type="text" class="form-control netDescription" id="description1" name="terms_description[1]" value="" placeholder="Terms Conditions Description" required>
                         </div>
                         <div class="form-group col-sm-1">
                             <button class="btn btn-danger" type="button" onclick="remove_terms_fields(1);"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>
                         </div>
                     </div>
-                    
+
                     <div id="notes_fields">
                     </div>
-                    <div class="form-group"> 
+                    <div class="form-group">
                         <div class="col-sm-2 "></div>
                         <div class="col-sm-2 ">
                             <button type="button" class="btn btn-sm btn-success m-t-n-xs" onclick="notes_fields()"><i class="fa fa-plus"></i> Add More Conditions</button>
@@ -299,9 +285,9 @@ var mem = $('#date').datepicker({
                                     </div>\
                                 </div>\
                             </div>';
-            
+
         objTo.appendChild(divtest);
-        
+
         $('.row_detail').each(function (index) {
             var no = index + 1;
             var html = 'Row Detail #' + no;
@@ -344,7 +330,7 @@ var mem = $('#date').datepicker({
                 <div class="form-group col-sm-1">\
                     <button class="btn btn-danger" type="button" onclick="remove_terms_fields('+ terms_len +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>\
                 </div>';
-        
+
         objTo.appendChild(divtest)
         $('.netDescription').each(function () {
             console.log($(this));
@@ -363,7 +349,7 @@ var mem = $('#date').datepicker({
     var v= $("#form").validate({
         // submitHandler: function() {
         //     // alert('val');
-        //     $('body').css('overflow','hidden');  
+        //     $('body').css('overflow','hidden');
         //     $('.new_loader').show();
         //     $('#form').submit();
         // },
@@ -371,15 +357,15 @@ var mem = $('#date').datepicker({
             CCHI: {
                 required: true,
                 number: true
-            },     
+            },
             ATA: {
                 required: true,
                 digits: true
-            },             
+            },
             NBCMI: {
                 required: true,
                 digits: true
-            },   
+            },
             WrittenPrice: {
                 // required: true,
                 number:true,
@@ -424,15 +410,15 @@ var mem = $('#date').datepicker({
         messages:{
             'Title[]': {
                 'required':'Title is required',
-            },  
+            },
             'File[]': {
                 'required':'File is required',
-            }      
+            }
         }
     });
     $(document).ready(function() {
         $("option:selected").prop("selected", false);
-        
+
         //IsActive checkbox
         $('.i-checks').iCheck({
             checkboxClass: 'icheckbox_square-green',

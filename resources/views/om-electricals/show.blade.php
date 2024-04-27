@@ -30,7 +30,7 @@ ul#side-menu { display: none;}
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-content">
-                    
+
                     <div class="text-center m-t-md">
                         <h2><b> Quotation - {{ $quotation->quotation_number}} </b></h2>
                         <h3> {{ $quotation->licence}}</h3>
@@ -50,7 +50,7 @@ ul#side-menu { display: none;}
                                                 {{-- <abbr title="Phone">P:</abbr> (123) 601-4590 --}}
                                             </address>
                                         </div>
-        
+
                                         <div class="col-sm-6 text-right">
                                             <h4>Quotation No.</h4>
                                             <h4 class="text-navy">{{$quotation->quotation_number}}</h4>
@@ -100,7 +100,7 @@ ul#side-menu { display: none;}
                                                     <td>{{ $table->series}}</td>
                                                     <td>{{ $table->material}}</td>
                                                     <td>{{ $table->hsn_sac}}</td>
-                                                    <td><small>{{ $table->description}}</small></td>
+                                                    <td>{{ $table->description}}</small></td>
                                                     <td>{{ $table->make}}</td>
                                                     <td>{{ $table->unit}}</td>
                                                     <td>{{ $table->quantity}}</td>
@@ -155,7 +155,7 @@ ul#side-menu { display: none;}
 {{-- <div class="row">
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
-           
+
             <div class="ibox-content">
 
                 <div id="wizard" class=>
@@ -164,62 +164,62 @@ ul#side-menu { display: none;}
                         <div class="text-center m-t-md">
                             <h2>About Exercise</h2>
                         </div>
-                        <div class="row"> 
+                        <div class="row">
                         <div class="form-group"><label class="col-sm-2 control-label">Status : <br/></label>
                             <div class="col-sm-10">
                                 <p><b>{{$quotation->status}}</b></p>
-                            </div>    
+                            </div>
                         </div>
                         </div>
-                        <div class="row"> 
+                        <div class="row">
                         <div class="form-group"><label class="col-sm-2 control-label">Licence : </label>
                             <div class="col-sm-10">
                                 <p>{{$quotation->licence}}</p>
-                            </div>    
+                            </div>
                         </div>
                         </div>
-                        <div class="row"> 
+                        <div class="row">
                         <div class="form-group"><label class="col-sm-2 control-label">Address : </label>
                             <div class="col-sm-10">
                                 <p>{{$quotation->address}}</p>
-                            </div>    
+                            </div>
                         </div>
                         </div>
-                        <div class="row"> 
+                        <div class="row">
                         <div class="form-group"><label class="col-sm-2 control-label">Client Company : </label>
                             <div class="col-sm-10">
                                 <p>{{$quotation->client_company}}</p>
-                            </div>    
+                            </div>
                         </div>
                         </div>
-                        <div class="row"> 
+                        <div class="row">
                         <div class="form-group"><label class="col-sm-2 control-label">Client Name : </label>
                             <div class="col-sm-10">
                                 <p><b>{{$quotation->client_name}} </b></p>
-                            </div>    
-                        </div> 
-                        </div> 
-                        
-                        <div class="row"> 
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="row">
                         <div class="form-group"><label class="col-sm-2 control-label">client_address : </label>
                             <div class="col-sm-10">
                                 <p>{{$quotation->client_address}}</p>
-                            </div>    
-                        </div> 
-                        </div> 
+                            </div>
+                        </div>
+                        </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     </div>
-    
+
 </div> --}}
 @endsection
 
 @section('scripts')
     <script>
-       
+
     $(document).ready(function () {
         $("#wizard").steps({
             enableAllSteps: true,
@@ -247,7 +247,7 @@ ul#side-menu { display: none;}
                 $(this).get(0).pause();
             });
         });
-       
+
         $('.i-checks').iCheck({
             checkboxClass: 'icheckbox_square-green',
             radioClass: 'iradio_square-green',

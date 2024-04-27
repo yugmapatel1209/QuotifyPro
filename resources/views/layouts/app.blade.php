@@ -25,10 +25,10 @@
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <!-- Left side column. contains the logo and sidebar -->
-                @include('layouts.sidebar') 
+                @include('layouts.sidebar')
             </div>
         </nav>
-        
+
         <div id="page-wrapper" class="gray-bg">
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
@@ -48,8 +48,8 @@
                             </form>
                         </li>
                         <li>
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">   
-                            </span> <span class="text-muted text-xs block">{{ Auth::user()->name }}<b class="caret"></b></span> </span> 
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            </span> <span class="text-muted text-xs block">{{ (Auth::user()) ? Auth::user()->name : '' }}<b class="caret"></b></span> </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li>
@@ -65,7 +65,7 @@
             </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <!-- Top-content which display breadcrumb for each Page -->
-                @yield('top-content')  
+                @yield('top-content')
                 {{-- <div class="col-lg-2">
                 </div> --}}
             </div>

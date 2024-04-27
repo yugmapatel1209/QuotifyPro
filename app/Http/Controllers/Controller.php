@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\QuotationsDetail;
-use App\QuotationsMaster;
+use App\Models\QuotationsDetail;
+use App\Models\QuotationsMaster;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;

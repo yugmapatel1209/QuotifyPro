@@ -8,7 +8,7 @@
     <h2><a href="{{ url('/earth') }}">Earth Enterprise</a> / Edit</h2>
 </div>
 @endsection
-@section('style') 
+@section('style')
 {{-- <link href="{{env('APP_URL').'/'.'public/css/plugins/summernote/summernote.css' }}" rel="stylesheet"> --}}
 {{-- <link href="{{env('APP_URL').'/'.'public/css/plugins/summernote/summernote-bs3.css'}}" rel="stylesheet"> --}}
 <style>
@@ -21,7 +21,7 @@
     // d($data);
     $qut_number = explode('/', $Quotation->quotation_number  );
     $qut_number1 = $qut_number[1];
-    
+
     $days = explode(' ', $Quotation->valid_until  );
     $valid = $days[0];
     $day = $days[1];
@@ -33,22 +33,8 @@
                 {{-- @include('flash::message') --}}
                 {{-- {!! Form::model($exercise, ['route' => ['exercises.update', $exercise->ExercisesMasterId], 'method' => 'patch','id' => 'form' ,'class' => 'form-horizontal' , 'enctype' => 'multipart/form-data' ]) !!}  --}}
                 {{-- {!! Form::model($Quotation, ['url' => ['update_om', $Quotation->id], 'method' => 'post','id' => 'form' ,'class' => 'form-horizontal' ]) !!}  --}}
-                <form role="form" id="form" class="form-horizontal" action="{!! url('update_earth', $Quotation->id) !!}" method="POST" enctype="multipart/form-data">  
+                <form role="form" id="form" class="form-horizontal" action="{!! url('update_earth', $Quotation->id) !!}" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Licence</label>
-                        <div class="col-sm-10">
-                            <input type="text" data-provide="typeahead" 
-                                {{-- data-source='["item 1","item 2","item 3"]' --}}
-                                data-source='{{$data['licence']}}' placeholder="licence..." class="form-control" name="licence" id="licence" value="{!! $Quotation->licence !!}" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Address </label>
-                        <div class="col-lg-10 col-sm-10">
-                            <textarea class="form-control" id="address" name="address" placeholder="Add Address" >{!! $Quotation->address !!}</textarea>
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2">Client Company </label>
                         <div class="col-sm-10">
@@ -61,12 +47,7 @@
                             <input type="text" data-provide="typeahead" data-source='{{$data['client_name']}}' placeholder="Client..." class="form-control" id="client_name" name="client_name" value="{!! $Quotation->client_name !!}"/>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Client Address </label>
-                        <div class="col-lg-10 col-sm-10">
-                            <textarea class="form-control" id="client_address" name="client_address" placeholder="Add Client Address" >{!! $Quotation->client_address !!}</textarea>
-                        </div>
-                    </div>
+
                     <div class="form-group">
                         <label class="control-label col-sm-2">RFQ Number </label>
                         <div class="col-sm-5">
@@ -77,11 +58,11 @@
                             <input type="text" class="form-control" id="date" name="date" placeholder="Select date" required value="{!! $Quotation->date !!}"/>
                         </div>
                     </div>
-                    
-                    <div class="form-group ExercisePrices"> 
+
+                    <div class="form-group ExercisePrices">
                         <label  class="control-label col-sm-2"> Quotation Number</label>
                         <div class="col-sm-5">
-                            <div class="input-group m-b"><span class="input-group-addon">@php echo date("Y",strtotime("-1 year")) .'-'.date("Y") .'/'; @endphp</span> <input type="text"  placeholder="Quotation Number" name="quotation_number" id="quotation_number" value="{!! $qut_number1 !!}"  class="form-control" required></div>    
+                            <div class="input-group m-b"><span class="input-group-addon">@php echo date("Y",strtotime("-1 year")) .'-'.date("Y") .'/'; @endphp</span> <input type="text"  placeholder="Quotation Number" name="quotation_number" id="quotation_number" value="{!! $qut_number1 !!}"  class="form-control" required></div>
                         </div>
                         <label class="control-label col-sm-1">Valid Until </label>
 
@@ -95,13 +76,18 @@
                                 <option value="Month(s)"<?php if($day == 'Month(s)') { ?> selected="selected"<?php } ?>>Month(s)</option>
                                 <option value="Year(s)"<?php if($day == 'Year(s)') { ?> selected="selected"<?php } ?>>Year(s)</option>
                             </select>
-                        </div> 
+                        </div>
+                    </div>
+                    <div class="form-group"><label class="col-sm-2 control-label">Is Laterpad Image</label>
+                        <div class="col-sm-10">
+                            <label class="checkbox-inline i-checks"> <input type="checkbox" value="1" name="is_laterpad_image" id="is_laterpad_image" <?php if($Quotation->is_laterpad_image == 1){echo "checked";}?>> Yes </label>
+                        </div>
                     </div>
                     <div class="form-group"><label class="col-sm-2 control-label">Status</label>
                         <div class="col-sm-10">
-                            <label class="checkbox-inline i-checks"> <input type="checkbox" value="1" name="is_active" id="is_active" checked> Yes </label>     
+                            <label class="checkbox-inline i-checks"> <input type="checkbox" value="1" name="is_active" id="is_active" checked> Yes </label>
                             <input type="hidden" name="is_publish" id="is_publish" value='0' >
-                        </div>    
+                        </div>
                     </div>
                     <div class="Consecutive ">
                         {{-- <div class="text-center m-t-md" ><h3>Quotation Table</h3></div> --}}
@@ -159,7 +145,7 @@
                                             <label class="control-label col-sm-1">GST% </label>
                                             <div class="col-sm-3">
                                                 <select class="form-control" id="gst_percentage" name="gst_percentage[{{$i}}]" >
-                                                    
+
                                                     <option value="5%"<?php if($table->gst_percentage == '5%') { ?> selected="selected"<?php } ?>>5%</option>
                                                     <option value="12%"<?php if($table->gst_percentage == '12%') { ?> selected="selected"<?php } ?>>12%</option>
                                                     <option value="18%"<?php if($table->gst_percentage == '18%') { ?> selected="selected"<?php } ?>>18%</option>
@@ -180,7 +166,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     {{-- <div class="progress progress-bar-default" id="UploadProgress">
                         <div style="width: 0%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="43" role="progressbar" class="progress-bar">
                             <span class="sr-only percent">0% Complete (success)</span>
@@ -191,15 +177,15 @@
                         <div class="col-sm-2 "><h3>Terms Conditions</h3></div>
                     </div>
                     @foreach ($Quotation->termsconditions as $i => $terms)
-                    <div class="form-group notes removeclass{{$i}}"> 
-                        @if ($i === 0) 
-                        <label class="control-label col-sm-3 text-right">Terms and Conditions </label> 
-                        @else 
+                    <div class="form-group notes removeclass{{$i}}">
+                        @if ($i === 0)
+                        <label class="control-label col-sm-3 text-right">Terms and Conditions </label>
+                        @else
                         <div class="col-sm-3 "></div>
                         @endif
                         <input type="hidden" id="TermsId" name="TermsId[{{$i}}]" value="{!! $terms->id !!}">
-                        
-                        <div class="form-group col-sm-7">    
+
+                        <div class="form-group col-sm-7">
                             <input type="text" class="form-control netDescription" id="description{{$i}}" name="terms_description[{{$i}}]" value="{{ $terms->description }}" placeholder="Terms Conditions" required>
                         </div>
                         <div class="form-group col-sm-1">
@@ -207,16 +193,16 @@
                         </div>
                     </div>
                     @endforeach
-                    
+
                     <div id="notes_fields">
                     </div>
-                    <div class="form-group"> 
+                    <div class="form-group">
                         <div class="col-sm-2 "></div>
                         <div class="col-sm-2 ">
                             <button type="button" class="btn btn-sm btn-success m-t-n-xs" onclick="notes_fields()"><i class="fa fa-plus"></i> Add More Conditions</button>
                         </div>
                     </div>
-                    
+
                     <div class="hr-line-dashed"></div>
 
                     <div class="form-group">
@@ -226,7 +212,7 @@
                             {{-- <button class="btn btn-primary" type="button" id="save_draft" >Save as Draft</button> --}}
                             {{-- <button class="btn btn-primary" type="button" id="save_publish" >Save changes</button> --}}
                         </div>
-                    </div>          
+                    </div>
                 </form>
             </div>
         </div>
@@ -237,7 +223,7 @@
 @section('scripts')
 <script src="{{env('APP_URL').'/'.'public/js/plugins/summernote/summernote.min.js'}}"></script>
 <script>
-    
+
 var mem = $('#date').datepicker({
             todayBtn: "linked",
             keyboardNavigation: false,
@@ -310,7 +296,7 @@ var mem = $('#date').datepicker({
                                     </div>\
                                 </div>\
                             </div>';
-            
+
         objTo.appendChild(divtest);
         $('.row_detail').each(function (index) {
             var no = index + 1;
@@ -354,7 +340,7 @@ var mem = $('#date').datepicker({
                 <div class="form-group col-sm-1">\
                     <button class="btn btn-danger" type="button" onclick="remove_terms_fields('+ terms_len +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>\
                 </div>';
-        
+
         objTo.appendChild(divtest)
         $('.netDescription').each(function () {
             console.log($(this));
@@ -375,15 +361,15 @@ var mem = $('#date').datepicker({
             CCHI: {
                 required: true,
                 number: true
-            },     
+            },
             ATA: {
                 required: true,
                 digits: true
-            },             
+            },
             NBCMI: {
                 required: true,
                 digits: true
-            },   
+            },
             WrittenPrice: {
                 number:true,
                 maxlength:5,
@@ -429,17 +415,17 @@ var mem = $('#date').datepicker({
         messages:{
             'Title[]': {
                 'required':'Title is required',
-            },  
+            },
             'File[]': {
                 'required':'File is required',
-            }      
-        }, 
+            }
+        },
     });
     $(document).ready(function () {
         $('audio').on("play", function (me) {
             $('audio').each(function (i,e) {
             if (e !== me.currentTarget) {
-                this.pause(); 
+                this.pause();
             }
             });
         });
@@ -449,6 +435,6 @@ var mem = $('#date').datepicker({
             radioClass: 'iradio_square-green',
         });
     });
-    
+
 </script>
 @endsection
