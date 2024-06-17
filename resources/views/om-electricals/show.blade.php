@@ -24,54 +24,62 @@ ul#side-menu { display: none;}
 
 @section('content')
 @php
-    // da($quotation);
+    // dd($data);
 @endphp
 <div class="row">
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-content">
 
-                    <div class="text-center m-t-md">
+                    <div class="text-center" style="margin-bottom: 0px">
+                        @if($quotation->is_laterpad_image)
+                            <img alt="image" class="img-fluid" src="{{ env('APP_URL').'/public/img/OMLatterPade.png' }}" style="max-width: 100%;" />
+                        @else
+                            <h2><b>Om Electricals</b></h2>
+                            <h3>  Govt. Approved Contractor,</h3>
+                            <h3> S/28 Swagat Enclave, Opp. Dediyasan G.I.D.C.,  Modhera Road, Mehsana-384002. </h3> <hr>
+                        @endif
                         <h2><b> Quotation - {{ $quotation->quotation_number}} </b></h2>
-                        <h3> {{ $quotation->licence}}</h3>
+                        <button type="button" class="btn btn-sm btn-success m-t-n-xs no-print" id="toggleButton"> <i class="fa fa-plus"></i> Show/Hide Price Comparison</button>
                     </div>
+
                     <div class="row"></div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="wrapper wrapper-content animated fadeInRight">
-                                <div class="ibox-content p-xl">
+                                <div class="ibox-content">
                                     <div class="row">
                                         <div class="col-sm-6">
+                                            {{-- @if(!$quotation->is_laterpad_image)
                                             <h5>From:</h5>
                                             <address>
                                                 <strong>Om Electrical,</strong><br>
                                                 @if($quotation->licence) {{$quotation->licence}},<br> @endif
                                                 @if($quotation->address) {{$quotation->address}},<br> @endif
-                                                {{-- <abbr title="Phone">P:</abbr> (123) 601-4590 --}}
+                                                <abbr title="Phone">P:</abbr> (123) 601-4590
                                             </address>
-                                        </div>
-
-                                        <div class="col-sm-6 text-right">
-                                            <h4>Quotation No.</h4>
-                                            <h4 class="text-navy">{{$quotation->quotation_number}}</h4>
+                                            @endif --}}
                                             <span>To:</span>
                                             <address>
                                                 @if($quotation->client_name)<strong>{{$quotation->client_name}},</strong><br> @endif
-                                                @if($quotation->client_company) {{$quotation->client_company}},<br>@endif
+                                                @if($quotation->client_company) <strong>{{$quotation->client_company}}</strong>,<br>@endif
                                                 @if($quotation->client_address) {{$quotation->client_address}},<br> @endif
                                                 @if($quotation->rfq_number) RFQ Number : {{$quotation->rfq_number}},<br> @endif
                                                 {{-- <br><abbr title="Phone">P:</abbr> (120) 9000-4321 --}}
                                             </address>
+                                        </div>
+
+                                        <div class="col-sm-6 text-right">
                                             <p>
                                                 <span><strong>Date:</strong> {{$quotation->date}}</span><br />
                                                 <span><strong>Valid Untill:</strong> {{$quotation->valid_until}}</span>
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="ibox-title">
+                                    {{-- <div class="ibox-title">
                                         <h5>Subject : Quotation for material supply</h5>
-                                    </div>
-                                    <div class="table-responsive m-t">
+                                    </div> --}}
+                                    <div class="table-responsive">
                                         <table class="table invoice-table">
                                             <thead>
                                                 <tr>
@@ -80,7 +88,7 @@ ul#side-menu { display: none;}
                                                     <th>Unit Price</th>
                                                     <th>Tax</th>
                                                     <th>Total Price</th> --}}
-                                                    <th>Sr.No</th>
+                                                    {{-- <th>Sr.No</th>
                                                     <th>Material </th>
                                                     <th>HSN/SAC </th>
                                                     <th>Description</th>
@@ -89,43 +97,92 @@ ul#side-menu { display: none;}
                                                     <th>Qty.</th>
                                                     <th>Rate.</th>
                                                     <th>Amount</th>
-                                                    {{-- <th>GST%</th>
-                                                    <th>GST A.</th>
+                                                    <th class="togglePriceComparison">GST%</th> --}}
+                                                    {{--<th class="togglePriceComparison">GST A.</th>
                                                     <th>Total A.</th> --}}
+                                                    {{-- <th class="togglePriceComparison">Including GST Rs</th>
+                                                    <th class="togglePriceComparison">Excluding GST Rs</th>
+                                                    <th class="togglePriceComparison">Discount%</th>
+                                                    <th class="togglePriceComparison">Profit%</th>
+                                                    <th class="togglePriceComparison">Transportation charges Rs</th>
+                                                    <th class="togglePriceComparison">Final Amount</th>
+                                                    <th class="togglePriceComparison">Profit(Original) Rate</th>
+                                                    <th class="togglePriceComparison">Purchase Amount </th>
+                                                    <th class="togglePriceComparison">Sales Amount </th>
+                                                    <th class="togglePriceComparison">Final Benefit</th> --}}
+                                                    @php
+                                                        // Determine which columns have data
+                                                        $columns = [];
+                                                        foreach ($data as $key => $values) {
+                                                            if (!empty(array_filter($values))) {
+                                                                $columns[$key] = $values;
+                                                            }
+                                                        }
+                                                    @endphp
+
+                                                    {{-- Generate table headers --}}
+                                                    @foreach(array_keys($columns) as $columnName)
+                                                        <th class="{{array_search($columnName, $optional_data) !== false ? 'togglePriceComparison' : '' }}">{{ $columnName }}</th>
+                                                    @endforeach
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($quotation->details as $key=> $table)
+
+                                                {{-- @foreach ($quotation->details as $key=> $table)
                                                 <tr>
                                                     <td>{{ $table->series}}</td>
                                                     <td>{{ $table->material}}</td>
                                                     <td>{{ $table->hsn_sac}}</td>
                                                     <td>{{ $table->description}}</small></td>
-                                                    <td>{{ $table->make}}</td>
+                                                    <td class="{{$table->make}}">{{ $table->make}}</td>
                                                     <td>{{ $table->unit}}</td>
                                                     <td>{{ $table->quantity}}</td>
                                                     <td>{{ $table->rate}}</td>
                                                     <td>{{ $table->amount}}</td>
-                                                    {{-- <td>{{ $table->gst_percentage}}</td>
-                                                    <td>{{ $table->gst_amount}}</td>
-                                                    <td>{{ $table->total_amount}}</td> --}}
+                                                    <td class="togglePriceComparison">{{ $table->gst_percentage}}</td>
+
+                                                    <td class="togglePriceComparison">{{ $table->including_gst}}</td>
+                                                    <td class="togglePriceComparison">{{ $table->excluding_gst}}</td>
+                                                    <td class="togglePriceComparison">{{ $table->discount_percentage}}</td>
+                                                    <td class="togglePriceComparison">{{ $table->profit_percentage}}</td>
+                                                    <td class="togglePriceComparison">{{ $table->transportation_charges}}</td>
+                                                    <td class="togglePriceComparison">{{ $table->final_amount}}</td>
+                                                    <td class="togglePriceComparison">{{ $table->original_rate}}</td>
+                                                    <td class="togglePriceComparison">{{ $table->purchase_amount}}</td>
+                                                    <td class="togglePriceComparison">{{ $table->sales_amount}}</td>
+                                                    <td class="togglePriceComparison">{{ $table->benefit}}</td>
+
                                                 </tr>
-                                                @endforeach
+                                                @endforeach --}}
+
+                                                @php
+                                                    // Determine the number of rows
+                                                    $rowCount = count(reset($columns));
+                                                    $columnsKeys = array_keys($columns);
+                                                    // dd($columnsKeys)
+                                                @endphp
+                                                {{-- Generate table rows --}}
+                                                @for($i = 0; $i < $rowCount; $i++)
+                                                <tr>
+                                                    @foreach($columns as $index => $column)
+
+                                                        <td class="{{array_search($columnsKeys[$i], $optional_data) !== false ? 'togglePriceComparison' : '' }}">{{ $column[$i] ?? '' }} </td>
+                                                    @endforeach
+
+
+                                                </tr>
+                                                @endfor
                                             </tbody>
                                         </table>
                                     </div>
                                     <table class="table invoice-total">
                                         <tbody>
                                             <tr>
-                                                <td><strong>Sub Total :</strong></td>
-                                                <td>Rs. {{$quotation->detail_amount}}</td>
+                                                <td><strong>TOTAL Amount:</strong></td>
+                                                <td>Rs. {{$extra_info['total_amount']}}</td>
                                             </tr>
                                             <tr>
-                                                <td><strong>Discount :</strong></td>
-                                                <td>Rs. {{$quotation->discount}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>TOTAL :</strong></td>
+                                                <td><strong>TOTAL Amount with GST:</strong></td>
                                                 <td>Rs. {{$quotation->final_amount}}</td>
                                             </tr>
                                         </tbody>
@@ -251,6 +308,15 @@ ul#side-menu { display: none;}
         $('.i-checks').iCheck({
             checkboxClass: 'icheckbox_square-green',
             radioClass: 'iradio_square-green',
+        });
+
+        function showPriceComparison(val = true) {
+            !val
+        }
+        $('#toggleButton').on('click', function() {
+            console.log("🚀 ~ $ ~ function:click")
+            // class="togglePriceComparison"
+            $('.togglePriceComparison').toggle(); // Toggle the visibility of the section
         });
     });
 </script>

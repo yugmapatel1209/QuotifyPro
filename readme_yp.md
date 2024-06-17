@@ -1,8 +1,12 @@
-########################################   Stripe Payment Gateway ############################
-######################################## Local Credentials ######################################## 
+######################################## Stripe Payment Gateway ############################
+######################################## Local Credentials ########################################
 http://localhost/quotation/
 email id : admin@gmail.com
 password : 123456
+
+http://localhost/QuotifyPro/
+yugma@yopmail.com
+Admin@123
 ####################################################################
 
 Artisane commands:
@@ -10,7 +14,7 @@ Run
 Php artisan serve
 auth
 php artisan make:auth
-check 
+check
 AuthenticatesUsers controller for the AUTH functions
 
 Model
@@ -55,4 +59,12 @@ php artisan view:clear
 php artisan route:clear
 php artisan config:cache
 php artisan config:clear
-####################################################################################
+####################################### Query upgrade history #############################################
+
+ALTER TABLE `quotations_detail` ADD `delivery` VARCHAR(100) NULL DEFAULT NULL AFTER `is_active`;
+ALTER TABLE `quotations_detail` ADD `benefit` VARCHAR(30) NULL DEFAULT NULL AFTER `total_amount`;
+
+ALTER TABLE `quotations_master` ADD `need_extra_price_comparison` TINYINT NOT NULL DEFAULT '0' AFTER `is_laterpad_image`;
+ALTER TABLE `quotations_master` ADD `buyers_name` VARCHAR(100) NULL DEFAULT NULL AFTER `need_extra_price_comparison`;
+
+###########################################################################################################

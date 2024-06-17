@@ -28,6 +28,7 @@ class QuotationsDetail extends Model
         'total_amount',
         'extra',
         'is_active',
+        'delivery',
         'including_gst',
         'excluding_gst',
         'discount_percentage',
@@ -36,7 +37,8 @@ class QuotationsDetail extends Model
         'original_rate',
         'purchase_amount',
         'sales_amount',
-        'transportation_charges'
+        'transportation_charges',
+        'benefit',
     ];
 
 }

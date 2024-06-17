@@ -7,8 +7,8 @@
 */
 /* Priyank shah start*/
 
-textarea { 
-  resize:vertical; 
+textarea {
+  resize:vertical;
 }
 
 .modal-dialog {
@@ -3742,7 +3742,7 @@ body.modal-open {
   color: inherit;
 }
 /* INVOICE */
-.invoice-table tbody > tr > td:last-child,
+/* .invoice-table tbody > tr > td:last-child,
 .invoice-table tbody > tr > td:nth-child(4),
 .invoice-table tbody > tr > td:nth-child(3),
 .invoice-table tbody > tr > td:nth-child(2) {
@@ -3753,7 +3753,7 @@ body.modal-open {
 .invoice-table thead > tr > th:nth-child(3),
 .invoice-table thead > tr > th:nth-child(2) {
   text-align: right;
-}
+} */
 .invoice-total > tbody > tr > td:first-child {
   text-align: right;
 }
@@ -3790,7 +3790,7 @@ body.modal-open {
   margin-top: 150px;
   padding-bottom: 30px;
   padding: 0 20px;
-}  
+}
 
 .login-page{
   display: flex;
@@ -5133,7 +5133,7 @@ body.skin-3 {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 220px;
-    /* min-height: 1200px; */ 
+    /* min-height: 1200px; */
     /* update_by_yp */
   }
   .navbar-static-side {
@@ -5223,5 +5223,23 @@ body.skin-3 {
 @media (max-width: 1000px) {
   .welcome-message {
     display: none;
+  }
+}
+/* Set margins for the printed page */
+@page {
+  margin: 1cm; /* Adjust this value as needed */
+}
+@media print {
+  .no-print {
+      display: none;
+  }
+
+  .ibox-content {
+      width: auto !important;
+      margin: 0 auto;
+  }
+  body {
+      margin: 0; /* Reset body margins */
+      padding: 1cm; /* Add padding for printed content */
   }
 }

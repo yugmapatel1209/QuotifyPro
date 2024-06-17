@@ -17,8 +17,9 @@
 </style>
 @endsection
 @section('content')
+<script src="{{ env('APP_URL') . '/' . 'public/js/Custom-addEditQutotation.js' }}" > </script>
 @php
-    // d($data);
+    // dd($data);
     $qut_number = explode('/', $Quotation->quotation_number  );
     $qut_number1 = $qut_number[1];
 
@@ -94,13 +95,30 @@
                             <input type="hidden" name="is_publish" id="is_publish" value='0' >
                         </div>
                     </div>
-                    <div class="Consecutive ">
+                    <div class="form-group"><label class="col-sm-2 control-label">Need Extra Price Comparison</label>
+                            <div class="col-sm-10">
+                                <label class="checkbox-inline i-checks">
+                                    <input type="checkbox"  name="need_extra_price_comparison" id="need_extra_price_comparison" <?php if($Quotation->need_extra_price_comparison == 1){echo "checked";}?>> Yes
+                                    <input type="hidden" id="need_extra_price_comparison_value" value={!! $Quotation->need_extra_price_comparison !!}>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group price_comparison_section_1">
+                            <label class="col-sm-2 control-label">Buyers Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="buyers_name" name="buyers_name" value="{!! $Quotation->buyers_name !!}"
+                                placeholder="Add buyer name if you selected the price comparison"  />
+                            </div>
+                        </div>
+                    <div class="Consecutive" id="Consecutive">
                         {{-- <div class="text-center m-t-md" ><h3>Quotation Table</h3></div> --}}
                         <div class="form-group">
                             <label class="control-label col-sm-2 "></label>
                             <div class="col-sm-2 "><h3>Quotation Table</h3></div>
                         </div>
                         @foreach ($Quotation->details as $i => $table)
+                        {{$i++}}
                         <div class="form-group exers removeclass{{$i}}">
                             <?php $p = $i + 1?>
                             <label class="control-label col-sm-2 slide">Row #{{$p}}</label>
@@ -133,15 +151,24 @@
                                             <div class="col-sm-5">
                                                 <input type="text" data-provide="typeahead" data-source='{{$data['make']}}' placeholder="Make..." class="form-control" id="make" name="make[{{$i}}]" value="{!! $table->make !!}" />
                                             </div>
-                                            <label class="control-label col-sm-1">Unit </label>
+                                            <label class="control-label col-sm-1">Delivery </label>
                                             <div class="col-sm-5">
-                                                <input type="text" data-provide="typeahead" data-source='{{$data['unit']}}' placeholder="Unit..." class="form-control" id="unit" name="unit[{{$i}}]" value="{!! $table->unit !!}" required />
+                                                <input type="text" data-provide="typeahead" placeholder="Delivery time frame..." class="form-control" id="delivery" name="delivery[{{$i}}]" value="{!! $table->delivery !!}" required />
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="control-label col-sm-1">Unit </label>
+                                            <div class="col-sm-5">
+                                                <input type="text" data-provide="typeahead" data-source='{{$data['unit']}}' placeholder="Unit..." class="form-control" id="unit" name="unit[{{$i}}]" value="{!! $table->unit !!}" required />
+                                        </div>
+                                    </div>
+
+
+
+                                        <div class="form-group">
                                             <label class="control-label col-sm-1">Quantity </label>
                                             <div class="col-sm-3">
-                                                <input type="number" placeholder="Quantity" class="form-control" id="quantity" name="quantity[{{$i}}]" value="{!! $table->quantity !!}" required/>
+                                                <input type="number" placeholder="Quantity" class="form-control" id="quantity_{{$i}}" name="quantity[{{$i}}]" value="{!! $table->quantity !!}" required/>
                                             </div>
                                             <label class="control-label col-sm-1">Rate </label>
                                             <div class="col-sm-3">
@@ -149,7 +176,7 @@
                                             </div>
                                             <label class="control-label col-sm-1">GST% </label>
                                             <div class="col-sm-3">
-                                                <select class="form-control" id="gst_percentage" name="gst_percentage[{{$i}}]" >
+                                                <select class="form-control" id="gst_percentage_{{$i}}" name="gst_percentage[{{$i}}]" >
 
                                                     <option value="5%"<?php if($table->gst_percentage == '5%') { ?> selected="selected"<?php } ?>>5%</option>
                                                     <option value="12%"<?php if($table->gst_percentage == '12%') { ?> selected="selected"<?php } ?>>12%</option>
@@ -164,6 +191,79 @@
                                                 <input type="text" placeholder="Profit %" class="form-control" id="profit_percentage" name="profit_percentage[{{$i}}]"  value="{{$table->profit_percentage}}"/>
                                             </div>
                                         </div> --}}
+                                        <br>
+                                        <div class="price_comparison_section">
+                                            <div class="form-group">
+                                                <label class="col-sm-2">Price Comparison section</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-2">Including GST </label>
+                                                        <div class="col-sm-3">
+                                                            <input type="number" placeholder="Including GST Amount in RS" class="form-control including_gst" id="including_gst_{{$i}}" name="including_gst[{{$i}}]"  value="{!! $table->including_gst !!}"/>
+                                                        </div>
+                                                        <label class="control-label col-sm-2">Excluding GST</label>
+                                                        <div class="col-sm-3">
+                                                            <input type="nuber" placeholder="Excluding GST Amount in RS" class="form-control excluding_gst" id="excluding_gst_{{$i}}" name="excluding_gst[{{$i}}]"  value="{!! $table->excluding_gst !!}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-2">Discount% </label>
+                                                        <div class="col-sm-3">
+                                                            <input type="number" min="0" max="100" placeholder="%" class="form-control discount_percentage" id="discount_percentage_{{$i}}" name="discount_percentage[{{$i}}]"  value="{!! $table->discount_percentage !!}"/>
+                                                        </div>
+                                                        <label class="control-label col-sm-2">Profit% </label>
+                                                        <div class="col-sm-3">
+                                                            <input type="number" min="0" max="100" placeholder=" %" class="form-control profit_percentage" id="profit_percentage_{{$i}}"  name="profit_percentage[{{$i}}]"  value="{!! $table->profit_percentage !!}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-2">Transportation charges</label>
+                                                        <div class="col-sm-3">
+                                                            <input type="number" placeholder="Charges in Rs" class="form-control transportation_charges" id="transportation_charges_{{$i}}" name="transportation_charges[{{$i}}]"  value="{!! $table->transportation_charges !!}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <table class="table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><strong>Final Amount :</strong></td>
+                                                                <td>Rs. <span class="final_amount_{{$i}}">{!! $table->final_amount !!}</span>  </td>
+                                                                <input type="hidden" placeholder="Final Amount" class="form-control" id="final_amount_{{$i}}" name="final_amount[{{$i}}]" />
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Profit(Original) Rate :</strong></td>
+                                                                <td>Rs. <span class="original_rate_{{$i}}">{!! $table->sales_amount !!}</span> </td>
+                                                                <input type="hidden" placeholder="Original Rate" class="form-control" id="original_rate_{{$i}}" name="sales_amount[{{$i}}]" />
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Purchase Amount :</strong></td>
+                                                                <td>Rs. <span class="purchase_amount_{{$i}}">{!! $table->sales_amount !!}</span></td>
+                                                                <input type="hidden" placeholder="Purchase Amount" class="form-control" id="purchase_amount_{{$i}}" name="sales_amount[{{$i}}]" />
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Sales Amount :</strong></td>
+                                                                <td>Rs. <span class="sales_amount_{{$i}}">{!! $table->sales_amount !!}</span> </td>
+                                                                <input type="hidden" placeholder="Sales Amount" class="form-control"  id="sales_amount_{{$i}}" name="sales_amount[{{$i}}]" />
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Transportation charges :</strong></td>
+                                                                <td>Rs. <span class="transportation_charges_view_{{$i}}">{!! $table->transportation_charges !!}</span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Final Benefit :</strong></td>
+                                                                <td>Rs. <span class="benefit_{{$i}}">{!! $table->benefit !!} </span> </td>
+                                                                <input type="hidden" placeholder="Benefit In Rs" class="form-control" id="benefit_{{$i}}" name="benefit[{{$i}}]" />
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
                                         <div class="form-group">
                                             <label class="control-label col-sm-1">Including GST </label>
                                             <div class="col-sm-3">
@@ -290,15 +390,6 @@
 @section('scripts')
 <script src="{{env('APP_URL').'/'.'public/js/plugins/summernote/summernote.min.js'}}"></script>
 <script>
-
-var mem = $('#date').datepicker({
-            todayBtn: "linked",
-            keyboardNavigation: false,
-            forceParse: false,
-            calendarWeeks: true,
-            autoclose: true,
-            format: "yyyy-mm-dd"
-        });
     var len =$('.exers').length;
     function exercises_fields() {
         len++;
@@ -344,7 +435,7 @@ var mem = $('#date').datepicker({
                                         <div class="form-group">\
                                             <label class="control-label col-sm-1">Quantity </label>\
                                             <div class="col-sm-3">\
-                                                <input type="number" placeholder="Quantity" class="form-control" id="quantity" name="quantity['+len+']" required/>\
+                                                <input type="number" placeholder="Quantity" class="form-control" id="quantity_'+len+'" name="quantity['+len+']" required/>\
                                             </div>\
                                             <label class="control-label col-sm-1">Rate </label>\
                                             <div class="col-sm-3">\
@@ -352,7 +443,7 @@ var mem = $('#date').datepicker({
                                             </div>\
                                             <label class="control-label col-sm-1">GST% </label>\
                                             <div class="col-sm-3">\
-                                                <select class="form-control" id="gst_percentage" name="gst_percentage['+len+']" >\
+                                                <select class="form-control" id="gst_percentage_'+ len + '" name="gst_percentage['+len+']" >\
                                                     <option value="5%" > 5%</option>\
                                                     <option value="12%" > 12%</option>\
                                                     <option value="18%" > 18%</option>\
@@ -372,6 +463,10 @@ var mem = $('#date').datepicker({
                             </div>';
 
         objTo.appendChild(divtest);
+        if(!$('#need_extra_price_comparison').prop('checked')) {
+            $(".price_comparison_section").hide();
+            $(".price_comparison_section_1").hide();
+        }
         $('.row_detail').each(function (index) {
             var no = index + 1;
             var html = 'Row Detail #' + no;
@@ -495,20 +590,20 @@ var mem = $('#date').datepicker({
             }
         },
     });
-    $(document).ready(function () {
-        $('audio').on("play", function (me) {
-            $('audio').each(function (i,e) {
-            if (e !== me.currentTarget) {
-                this.pause();
-            }
-            });
-        });
-        summernote_edior();
-        $('.i-checks').iCheck({
-            checkboxClass: 'icheckbox_square-green',
-            radioClass: 'iradio_square-green',
-        });
-    });
+    // $(document).ready(function () {
+    //     // $('audio').on("play", function (me) {
+    //     //     $('audio').each(function (i,e) {
+    //     //     if (e !== me.currentTarget) {
+    //     //         this.pause();
+    //     //     }
+    //     //     });
+    //     // });
+    //     summernote_edior();
+    //     // $('.i-checks').iCheck({
+    //     //     checkboxClass: 'icheckbox_square-green',
+    //     //     radioClass: 'iradio_square-green',
+    //     // });
+    // });
 
 </script>
 @endsection

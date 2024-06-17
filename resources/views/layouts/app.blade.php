@@ -23,14 +23,14 @@
     </div>
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
-            <div class="sidebar-collapse">
+            <div class="sidebar-collapse no-print">
                 <!-- Left side column. contains the logo and sidebar -->
                 @include('layouts.sidebar')
             </div>
         </nav>
 
         <div id="page-wrapper" class="gray-bg">
-            <div class="row border-bottom">
+            <div class="row border-bottom no-print">
                 <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fas fa-bars"></i> </a>
@@ -73,7 +73,7 @@
                 <!-- Original Page Content -->
                 @yield('content')
             </div>
-            <div class="footer" style="max-height: 100px;text-align: center">
+            <div class="footer no-print" style="max-height: 100px;text-align: center">
                 <div>
                     <strong>Copyright © {{ date('Y')}} <a href="#">{{ env('APP_NAME') }}</a>.</strong> All rights reserved.
                 </div>

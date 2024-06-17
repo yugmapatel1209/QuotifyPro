@@ -43,12 +43,14 @@ class QuotationController extends Controller
     }
     public function store(Request $request)
     {
-        
+
         $input = [];
         $input = $request->all();
         $input['valid_until'] = $request->valid_until . ' ' . $request->valid_until1;
         $input['is_active'] = isset($request['is_active']) ? 1 : 0;
         $input['is_laterpad_image'] = isset($request['is_laterpad_image']) ? 1: 0;
+        $input['need_extra_price_comparison'] = isset($request['need_extra_price_comparison']) ? 1: 0;
+        $input['buyers_name'] = $request['buyers_name'];
         $input['final_amount'] = 1000000;
         if($request->quotation_number) {
             $input['quotation_number'] = date("Y",strtotime("-1 year")) .'-'.date("Y") .'/'.$input['quotation_number'];
@@ -58,7 +60,7 @@ class QuotationController extends Controller
         $QuotationsMaster = QuotationsMaster::create($input);
         $QuotationsMasterId = $QuotationsMaster->id;
         // $ExercisesMasterId = 1;
-        // dd($input['is_laterpad_image']);
+        // dd($input['is_laterpad_image']showTable);
         $count = 1;
         if(count($request->quantity) > 0) {
             foreach($request->quantity as $key => $quantity) {
@@ -76,10 +78,22 @@ class QuotationController extends Controller
                 $mode_data['rate'] =  $request->rate[$key];
                 $mode_data['amount'] = $amount = $request->rate[$key] * $request->quantity[$key];
                 $mode_data['gst_percentage'] = $per =  $request->gst_percentage[$key];
-                $mode_data['profit_percentage'] =  $per = $request->profit_percentage[$key];
+                $mode_data['profit_percentage'] =  $request->profit_percentage[$key];
                 $per = str_replace('%', '', $per);
                 $mode_data['gst_amount'] = $gst_amount = ( $amount * $per ) / 100;
                 $mode_data['total_amount'] = $gst_amount + $amount;
+                // Price Comparison section
+                $mode_data['including_gst'] = $request->including_gst[$key];
+                $mode_data['excluding_gst'] = $request->excluding_gst[$key];
+                $mode_data['discount_percentage'] = $request->discount_percentage[$key];
+                $mode_data['profit_percentage'] = $request->profit_percentage[$key];
+                $mode_data['transportation_charges'] = $request->transportation_charges[$key];
+                $mode_data['final_amount'] = $request->final_amount[$key];
+                $mode_data['original_rate'] = $request->original_rate[$key];
+                $mode_data['purchase_amount'] = $request->purchase_amount[$key];
+                $mode_data['sales_amount'] = $request->sales_amount[$key];
+                $mode_data['benefit'] = $request->benefit[$key];
+
                 // $total_duration = $total_duration + $Duration + 10;
                 QuotationsDetail::create($mode_data);
             }
@@ -110,8 +124,65 @@ class QuotationController extends Controller
         }
         // Check this function in OmDataTable .
         $quotation = $this->dataTable->getExercise($id);
-        // da($quotation);
-        return view('om-electricals.show')->with('quotation', $quotation);
+
+        $data = [
+            'Sr.No' => [],
+            'Material' => [],
+            'HSN/SAC' => [],
+            'Description' => [],
+            'Make' => [],
+            'Unit' => [],
+            'Qty' => [],
+            'Rate' => [],
+            'Amount' => [],
+            'GST%' => [],
+            'Delivery' => [],
+            'Including GST Rs' => [],
+            'Excluding GST Rs' => [],
+            'Discount%' => [],
+            'Profit%' => [],
+            'Transportation charges Rs' => [],
+            'Final Amount' => [],
+            'Profit(Original) Rate' => [],
+            'Purchase Amount' => [],
+            'Sales Amount' => [],
+            'Final Benefit' => []
+        ];
+        $total_amount = 0;
+        $total_amount_gst = 0;
+
+        foreach ($quotation->details as $obj) {
+            $data['Sr.No'][] = $obj->series;
+            $data['Material'][] = $obj->material;
+            $data['HSN/SAC'][] = $obj->hsn_sac;
+            $data['Description'][] = $obj->description;
+            $data['Make'][] = $obj->make;
+            $data['Unit'][] = $obj->unit;
+            $data['Qty'][] = $obj->quantity;
+            $data['Rate'][] = $obj->rate;
+            $data['Amount'][] = $obj->amount;
+            $data['GST%'][] = $obj->gst_percentage;
+            // $data['Including GST Rs'][] = $obj->gst_amount;
+            // $data['total_amount'][] = $obj->total_amount;
+            $data['Delivery'][] = $obj->delivery;
+            $data['Including GST Rs'][] = $obj->including_gst;
+            $data['Excluding GST Rs'][] = $obj->excluding_gst;
+            $data['Discount%'][] = $obj->discount_percentage;
+            $data['Profit%'][] = $obj->profit_percentage;
+            $data['Transportation charges Rs'][] = $obj->transportation_charges;
+            $data['Final Amount'][] = $obj->final_amount;
+            $data['Profit(Original) Rate'][] = $obj->original_rate;
+            $data['Purchase Amount'][] = $obj->purchase_amount;
+            $data['Sales Amount'][] = $obj->sales_amount;
+            $data['Final Benefit'][] = $obj->benefit;
+            $total_amount = $total_amount + $obj->amount;
+        }
+        $extra_info['total_amount'] = $total_amount;
+
+        $optional_data = ['Including GST Rs', 'Excluding GST Rs','Discount%','Profit%','Transportation charges Rs','Final Amount','Profit(Original) Rate','Purchase Amount','Sales Amount','Final Benefit'];
+        // dd($extra_info);
+        return view('om-electricals.show',  compact('quotation','data', 'optional_data', 'extra_info'));
+        // return view('om-electricals.show')->with('quotation', $quotation);
     }
 
     public function edit($id)
@@ -129,7 +200,6 @@ class QuotationController extends Controller
         $data['make'] = $this->getMake();
         $data['unit'] = $this->getUnit();
         $data['hsn_sac'] = $this->getHSNSAC();
-
         return view('om-electricals.edit',  compact('Quotation','data'));
     }
     public function update($id, Request $request)
