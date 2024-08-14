@@ -79,7 +79,7 @@
                         <div class="form-group ExercisePrices">
                             <label class="control-label col-sm-2"> Quotation Number</label>
                             <div class="col-sm-5">
-                                <div class="input-group m-b"><span class="input-group-addon">@php echo date("Y",strtotime("-1 year")) .'-'.date("Y") .'/'; @endphp</span> <input
+                                <div class="input-group m-b"><span class="input-group-addon">@php echo date("Y").'-'.  date("Y",strtotime("+1 year")) .'/'; @endphp</span> <input
                                         type="text" placeholder="Quotation Number" name="quotation_number"
                                         id="quotation_number" value="" class="form-control" required></div>
                             </div>
@@ -303,7 +303,7 @@
                                     <h3>Terms Conditions</h3>
                                 </div>
                             </div>
-                            <div class="form-group notes removeclass1">
+                            <div class="form-group notes removeclassnotes1">
                                 <label class="control-label col-sm-3 text-right">Terms and Conditions </label>
                                 <input type="hidden" id="TermsId" name="TermsId[1]" value="0">
 
@@ -563,8 +563,8 @@
         // alert('as' + terms_len );
         var objTo = document.getElementById('notes_fields')
         var divtest = document.createElement("div");
-        divtest.setAttribute("class", "form-group notes removeclass" + terms_len);
-        var rdiv = 'removeclass' + terms_len;
+        divtest.setAttribute("class", "form-group notes removeclassnotes" + terms_len);
+        var rdiv = 'removeclassnotes' + terms_len;
         divtest.innerHTML = '<div class="col-sm-3"></div>\
                 <input type="hidden" id="TermsId" name="TermsId[' + terms_len + ']" value="0">\
                 <div class="form-group col-sm-7">\
@@ -586,7 +586,7 @@
     }
     function remove_terms_fields(rid) {
         if ($('.notes').length > 1) {
-            $('.removeclass' + rid).remove();
+            $('.removeclassnotes' + rid).remove();
         }
     }
     var v = $("#form").validate({

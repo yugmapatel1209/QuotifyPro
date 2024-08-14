@@ -11,7 +11,7 @@ class OmDataTable
     public function all()
     {
         $data =[];
-        $data = QuotationsMaster::with('details')->where('company_id',1)->get();
+        $data = QuotationsMaster::with('details')->where('company_id',1)->orderBy('id', 'DESC')->get();
 
         // echo '<pre>';print_r($data->toArray()); die;
 
@@ -37,7 +37,7 @@ class OmDataTable
     public function getExercise($id)
     {
         $data =[];
-        $data = QuotationsMaster::where('id',$id)->with('details','termsconditions')->get();
+        $data = QuotationsMaster::where('id',$id)->with('details','termsconditions')->orderBy('id', 'DESC')->get();
         return $data[0];
     }
 }

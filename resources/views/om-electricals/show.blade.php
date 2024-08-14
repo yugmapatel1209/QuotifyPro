@@ -61,8 +61,8 @@ ul#side-menu { display: none;}
                                             @endif --}}
                                             <span>To:</span>
                                             <address>
+						                        @if($quotation->client_company) <strong>{{$quotation->client_company}}</strong>,<br>@endif
                                                 @if($quotation->client_name)<strong>{{$quotation->client_name}},</strong><br> @endif
-                                                @if($quotation->client_company) <strong>{{$quotation->client_company}}</strong>,<br>@endif
                                                 @if($quotation->client_address) {{$quotation->client_address}},<br> @endif
                                                 @if($quotation->rfq_number) RFQ Number : {{$quotation->rfq_number}},<br> @endif
                                                 {{-- <br><abbr title="Phone">P:</abbr> (120) 9000-4321 --}}
@@ -158,18 +158,16 @@ ul#side-menu { display: none;}
                                                 @php
                                                     // Determine the number of rows
                                                     $rowCount = count(reset($columns));
+
                                                     $columnsKeys = array_keys($columns);
-                                                    // dd($columnsKeys)
+                                                    // dd($rowCount)
                                                 @endphp
                                                 {{-- Generate table rows --}}
                                                 @for($i = 0; $i < $rowCount; $i++)
                                                 <tr>
                                                     @foreach($columns as $index => $column)
-
-                                                        <td class="{{array_search($columnsKeys[$i], $optional_data) !== false ? 'togglePriceComparison' : '' }}">{{ $column[$i] ?? '' }} </td>
+                                                        <td class="{{array_search($index, $optional_data) !== false ? 'togglePriceComparison' : '' }}">{{ $column[$i] ?? '' }} </td>
                                                     @endforeach
-
-
                                                 </tr>
                                                 @endfor
                                             </tbody>
@@ -200,6 +198,8 @@ ul#side-menu { display: none;}
                                     <br>
                                     <div class="text-center m-t-md">
                                         <h4>If you have any questions about this price quote, please contact.</h4>
+                                        <h4>Devis, Mo:- 9408112342, E-mail:- omele11@yahoo.com</h4>
+                                        <h3>Thank you for Your Business!</h3>
                                     </div>
                                 </div>
                             </div>

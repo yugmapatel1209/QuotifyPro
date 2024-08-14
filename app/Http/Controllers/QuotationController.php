@@ -53,7 +53,7 @@ class QuotationController extends Controller
         $input['buyers_name'] = $request['buyers_name'];
         $input['final_amount'] = 1000000;
         if($request->quotation_number) {
-            $input['quotation_number'] = date("Y",strtotime("-1 year")) .'-'.date("Y") .'/'.$input['quotation_number'];
+            $input['quotation_number'] =date("Y") .'-'.date("Y",strtotime("+1 year")) .'/'.$input['quotation_number'];
         }
         // return  $input;
         // dd($request->all());  die;
@@ -215,8 +215,10 @@ class QuotationController extends Controller
 
         $input = [];
         // $input = $request->all();
-        $input['licence'] =  $request->licence;
-        $input['address'] =  $request->address;
+
+        // $input['licence'] =  $request->licence;
+        // $input['address'] =  $request->address;
+
         $input['client_company'] =  $request->client_company;
         $input['client_name'] =  $request->client_name;
         $input['client_address'] =  $request->client_address;
@@ -225,12 +227,17 @@ class QuotationController extends Controller
         $input['valid_until'] = $request->valid_until . ' ' . $request->valid_until1;
         $input['is_active'] = isset($request->is_active) ? 1 : 0;
         $input['is_laterpad_image'] = isset($request['is_laterpad_image']) ? 1: 0;
+        $input['need_extra_price_comparison'] = isset($request['need_extra_price_comparison']) ? 1: 0;
+        $input['buyers_name'] = $request['buyers_name'];
+
+
+        //dought
         if($request->quotation_number) {
-            $input['quotation_number'] = date("Y",strtotime("-1 year")) .'-'.date("Y") .'/'.$request->quotation_number;
+            $input['quotation_number'] =date("Y") .'-'.date("-Y",strtotime("+1 year"))  .'/'.$request->quotation_number;
         }
         $ExercisesMaster = QuotationsMaster::where('id',$id)->update($input);
         $ids =$request->quotations_detail_ids;
-        //Delete Older Quotaion
+        //Delete Older Quotation
         // $delete_quotation = QuotationsDetail::where('quotation_id', $quotation_id)->delete(); //delete all older entries
         $existing_quotation = QuotationsDetail::where('quotation_id', $quotation_id)->select('id')->get();
         foreach ($existing_quotation as $table) {
@@ -259,6 +266,17 @@ class QuotationController extends Controller
                 $per = str_replace('%', '', $per);
                 $mode_data['gst_amount'] = $gst_amount = ( $amount * (int) $per ) / 100;
                 $mode_data['total_amount'] = $gst_amount + $amount;
+                // Price Comparison section
+                $mode_data['including_gst'] = $request->including_gst[$key];
+                $mode_data['excluding_gst'] = $request->excluding_gst[$key];
+                $mode_data['discount_percentage'] = $request->discount_percentage[$key];
+                $mode_data['profit_percentage'] = $request->profit_percentage[$key];
+                $mode_data['transportation_charges'] = $request->transportation_charges[$key];
+                $mode_data['final_amount'] = $request->final_amount[$key];
+                $mode_data['original_rate'] = $request->original_rate[$key];
+                $mode_data['purchase_amount'] = $request->purchase_amount[$key];
+                $mode_data['sales_amount'] = $request->sales_amount[$key];
+                $mode_data['benefit'] = $request->benefit[$key];
 
                 if($request->quotations_detail_ids[$key] > 0) {
                     QuotationsDetail::where(['id' => $request->quotations_detail_ids[$key] ])->update($mode_data);

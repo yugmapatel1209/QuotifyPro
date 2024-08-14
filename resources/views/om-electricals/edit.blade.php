@@ -21,6 +21,7 @@
 @php
     // dd($data);
     $qut_number = explode('/', $Quotation->quotation_number  );
+    $qut_number0 = $qut_number[0];
     $qut_number1 = $qut_number[1];
 
     $days = explode(' ', $Quotation->valid_until  );
@@ -68,7 +69,7 @@
                     <div class="form-group ExercisePrices">
                         <label  class="control-label col-sm-2"> Quotation Number</label>
                         <div class="col-sm-5">
-                            <div class="input-group m-b"><span class="input-group-addon">@php echo date("Y",strtotime("-1 year")) .'-'.date("Y") .'/'; @endphp</span> <input type="text"  placeholder="Quotation Number" name="quotation_number" id="quotation_number" value="{!! $qut_number1 !!}"  class="form-control" required></div>
+                            <div class="input-group m-b"><span class="input-group-addon">{!! $qut_number0 !!}</span> <input type="text"  placeholder="Quotation Number" name="quotation_number" id="quotation_number" value="{!! $qut_number1 !!}"  class="form-control" required></div>
                         </div>
                         <label class="control-label col-sm-1">Valid Until </label>
 
@@ -121,13 +122,13 @@
                         {{$i++}}
                         <div class="form-group exers removeclass{{$i}}">
                             <?php $p = $i + 1?>
-                            <label class="control-label col-sm-2 slide">Row #{{$p}}</label>
+                            <label class="control-label col-sm-2 slide">Row #{{$i}}</label>
                             <div class="col-sm-10">
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-content">
                                         <a class="close-link binded pull-right" onclick="remove_exercise_fields('{{$i}}')"><i class="fa fa-times"></i></a>
                                         <div class="form-group">
-                                            <label class="col-sm-2 row_detail">Row Detail #{{$p}}</label>
+                                            <label class="col-sm-2 row_detail">Row Detail #{{$i}}</label>
                                             <input type="hidden" id="quotations_detail_ids" name="quotations_detail_ids[{{$i}}]" value="{!! $table->id !!}">
                                         </div>
                                         <div class="form-group">
@@ -177,11 +178,12 @@
                                             <label class="control-label col-sm-1">GST% </label>
                                             <div class="col-sm-3">
                                                 <select class="form-control" id="gst_percentage_{{$i}}" name="gst_percentage[{{$i}}]" >
+                                                
 
-                                                    <option value="5%"<?php if($table->gst_percentage == '5%') { ?> selected="selected"<?php } ?>>5%</option>
-                                                    <option value="12%"<?php if($table->gst_percentage == '12%') { ?> selected="selected"<?php } ?>>12%</option>
-                                                    <option value="18%"<?php if($table->gst_percentage == '18%') { ?> selected="selected"<?php } ?>>18%</option>
-                                                    <option value="28%"<?php if($table->gst_percentage == '28%') { ?> selected="selected"<?php } ?>>28%</option>
+                                                    <option value="5"<?php if($table->gst_percentage == '5') { ?> selected="selected"<?php } ?>>5%</option>
+                                                    <option value="12"<?php if($table->gst_percentage == '12') { ?> selected="selected"<?php } ?>>12%</option>
+                                                    <option value="18"<?php if($table->gst_percentage == '18') { ?> selected="selected"<?php } ?>>18%</option>
+                                                    <option value="28"<?php if($table->gst_percentage == '28') { ?> selected="selected"<?php } ?>>28%</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -192,7 +194,7 @@
                                             </div>
                                         </div> --}}
                                         <br>
-                                        <div class="price_comparison_section">
+                                        <div class="price_comparison_section" data-show-section="{{ $Quotation->need_extra_price_comparison ? 'true' : 'false' }}">
                                             <div class="form-group">
                                                 <label class="col-sm-2">Price Comparison section</label>
                                             </div>
@@ -236,12 +238,12 @@
                                                             <tr>
                                                                 <td><strong>Profit(Original) Rate :</strong></td>
                                                                 <td>Rs. <span class="original_rate_{{$i}}">{!! $table->sales_amount !!}</span> </td>
-                                                                <input type="hidden" placeholder="Original Rate" class="form-control" id="original_rate_{{$i}}" name="sales_amount[{{$i}}]" />
+                                                                <input type="hidden" placeholder="Original Rate" class="form-control" id="original_rate_{{$i}}" name="original_rate[{{$i}}]" />
                                                             </tr>
                                                             <tr>
                                                                 <td><strong>Purchase Amount :</strong></td>
                                                                 <td>Rs. <span class="purchase_amount_{{$i}}">{!! $table->sales_amount !!}</span></td>
-                                                                <input type="hidden" placeholder="Purchase Amount" class="form-control" id="purchase_amount_{{$i}}" name="sales_amount[{{$i}}]" />
+                                                                <input type="hidden" placeholder="Purchase Amount" class="form-control" id="purchase_amount_{{$i}}" name="purchase_amount[{{$i}}]" />
                                                             </tr>
                                                             <tr>
                                                                 <td><strong>Sales Amount :</strong></td>
@@ -264,7 +266,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label class="control-label col-sm-1">Including GST </label>
                                             <div class="col-sm-3">
                                                 <input type="text" placeholder="Including GST"
@@ -319,7 +321,7 @@
                                                 <input type="text" placeholder="Transportation charges" class="form-control"
                                                     id="sales_amount" name="transportation_charges[{{$i}}]" value="{{$table->transportation_charges}}" />
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -344,7 +346,7 @@
                         <div class="col-sm-2 "><h3>Terms Conditions</h3></div>
                     </div>
                     @foreach ($Quotation->termsconditions as $i => $terms)
-                    <div class="form-group notes removeclass{{$i}}">
+                    <div class="form-group notes removeclassnotes{{$i}}">
                         @if ($i === 0)
                         <label class="control-label col-sm-3 text-right">Terms and Conditions </label>
                         @else
@@ -401,63 +403,134 @@
                             <div class="col-sm-10">\
                                 <div class="ibox float-e-margins">\
                                     <div class="ibox-content">\
-                                        <a class="close-link binded pull-right" onclick="remove_exercise_fields('+len+')"><i class="fa fa-times"></i></a>\
+                                        <a class="close-link binded pull-right" onclick="remove_exercise_fields(' + len + ')"><i class="fa fa-times"></i></a>\
                                         <div class="form-group">\
                                             <label class="col-sm-2 row_detail">Row Detail #1</label>\
-                                            <input type="hidden" id="quotations_detail_ids" name="quotations_detail_ids['+len+']" value="0">\
                                         </div>\
                                         <div class="form-group">\
                                             <label class="control-label col-sm-1">Description </label>\
                                             <div class="col-lg-11 col-sm-10">\
-                                                <textarea class="form-control" id="description" name="description['+len+']" placeholder="Add description"></textarea>\
+                                                <textarea class="form-control" id="description" name="description[' + len + ']" placeholder="Add description"></textarea>\
                                             </div>\
                                         </div>\
                                         <div class="form-group">\
                                             <label class="control-label col-sm-1">Material </label>\
                                             <div class="col-sm-5">\
-                                                <input type="text" data-provide="typeahead" data-source="{{$data['material']}}" placeholder="Material..." class="form-control" id="material" name="material['+len+']" />\
+                                                <input type="text" data-provide="typeahead" data-source="{{ $data['material'] }}" placeholder="Material..." class="form-control" id="material" name="material[' + len + ']" />\
                                             </div>\
                                             <label class="control-label col-sm-1">HSN/SAC </label>\
                                             <div class="col-sm-5">\
-                                                <input type="text" data-provide="typeahead" data-source="{{$data['hsn_sac']}}" placeholder="hsn/sac..." class="form-control" id="hsn_sac" name="hsn_sac['+len+']" />\
+                                                <input type="text" data-provide="typeahead" data-source="{{ $data['hsn_sac'] }}" placeholder="hsn/sac..." class="form-control" id="hsn_sac" name="hsn_sac[' + len + ']" />\
                                             </div>\
                                         </div>\
                                         <div class="form-group">\
                                             <label class="control-label col-sm-1">Make </label>\
                                             <div class="col-sm-5">\
-                                                <input type="text" data-provide="typeahead" data-source="{{$data['make']}}" placeholder="Make..." class="form-control" id="make" name="make['+len+']" />\
+                                                <input type="text" data-provide="typeahead" data-source="{{ $data['make'] }}" placeholder="Make..." class="form-control" id="make" name="make[' + len + ']" />\
                                             </div>\
+                                            <label class="control-label col-sm-1">Delivery </label>\
+                                            <div class="col-sm-5">\
+                                                <input type="text" data-provide="typeahead" placeholder="Delivery time frame..." class="form-control" id="delivery" name="delivery['+ len + ']" />\
+                                            </div>\
+                                        </div>\
+                                        <div class="form-group">\
                                             <label class="control-label col-sm-1">Unit </label>\
                                             <div class="col-sm-5">\
-                                                <input type="text" data-provide="typeahead" data-source="{{$data['unit']}}" placeholder="Unit..." class="form-control" id="unit" name="unit['+len+']" required/>\
+                                                <input type="text" data-provide="typeahead" data-source="{{ $data['unit'] }}" placeholder="Unit..." class="form-control" id="unit" name="unit[' + len + ']" required />\
                                             </div>\
                                         </div>\
                                         <div class="form-group">\
                                             <label class="control-label col-sm-1">Quantity </label>\
                                             <div class="col-sm-3">\
-                                                <input type="number" placeholder="Quantity" class="form-control" id="quantity_'+len+'" name="quantity['+len+']" required/>\
+                                                <input type="number" placeholder="Quantity" class="form-control" id="quantity_'+ len+'" name="quantity[' + len + ']" required />\
                                             </div>\
                                             <label class="control-label col-sm-1">Rate </label>\
                                             <div class="col-sm-3">\
-                                                <input type="number" placeholder="Rate" class="form-control" id="rate" name="rate['+len+']" required/>\
+                                                <input type="number" placeholder="Rate" class="form-control" id="rate" name="rate[' + len + ']" required />\
                                             </div>\
                                             <label class="control-label col-sm-1">GST% </label>\
                                             <div class="col-sm-3">\
-                                                <select class="form-control" id="gst_percentage_'+ len + '" name="gst_percentage['+len+']" >\
-                                                    <option value="5%" > 5%</option>\
-                                                    <option value="12%" > 12%</option>\
-                                                    <option value="18%" > 18%</option>\
-                                                    <option value="28%" > 28%</option>\
+                                                <select class="form-control" id="gst_percentage_'+ len + '" name="gst_percentage[' + len + ']">\
+                                                    <option value="5"> 5%</option>\
+                                                    <option value="12"> 12%</option>\
+                                                    <option value="18"> 18%</option>\
+                                                    <option value="28"> 28%</option>\
                                                 </select>\
                                             </div>\
                                         </div>\
-                                        <div class="form-group">\
-                                            <label class="control-label col-sm-1">Profit% </label>\
-                                            <div class="col-sm-3">\
-                                                <input type="text" placeholder="Profit %" class="form-control" id="profit_percentage" name="profit_percentage['+len+']" />\
+                                        <div>\
+                                        </div>\
+                                        <br>\
+                                        <div class="price_comparison_section">\
+                                            <div class="form-group">\
+                                                <label class="col-sm-2">Price Comparison section</label>\
+                                            </div>\
+                                            <div class="form-group">\
+                                                <div class="col-sm-8">\
+                                                    <div class="form-group">\
+                                                        <label class="control-label col-sm-2">Including GST </label>\
+                                                        <div class="col-sm-3">\
+                                                            <input type="number" placeholder="Including GST Amount in RS" class="form-control including_gst" id="including_gst_'+ len+'" name="including_gst['+len+']" />\
+                                                        </div>\
+                                                        <label class="control-label col-sm-2">Excluding GST</label>\
+                                                        <div class="col-sm-3">\
+                                                            <input type="nuber" placeholder="Excluding GST Amount in RS" class="form-control excluding_gst" id="excluding_gst_'+ len+'" name="excluding_gst['+len+']" />\
+                                                        </div>\
+                                                    </div>\
+                                                    <div class="form-group">\
+                                                        <label class="control-label col-sm-2">Discount% </label>\
+                                                        <div class="col-sm-3">\
+                                                            <input type="number" min="0" max="100" placeholder="%" class="form-control discount_percentage" value="0" id="discount_percentage_'+ len+'" name="discount_percentage['+len+']" />\
+                                                        </div>\
+                                                        <label class="control-label col-sm-2">Profit% </label>\
+                                                        <div class="col-sm-3">\
+                                                            <input type="number" min="0" max="100" placeholder=" %" class="form-control profit_percentage" id="profit_percentage_'+ len+'" value="0" name="profit_percentage['+len+']" />\
+                                                        </div>\
+                                                    </div>\
+                                                    <div class="form-group">\
+                                                        <label class="control-label col-sm-2">Transportation charges</label>\
+                                                        <div class="col-sm-3">\
+                                                            <input type="number" placeholder="Charges in Rs" class="form-control transportation_charges" value="0" id="transportation_charges_'+ len+'" name="transportation_charges['+len+']" />\
+                                                        </div>\
+                                                    </div>\
+                                                </div>\
+                                                <div class="col-sm-4">\
+                                                    <table class="table">\
+                                                        <tbody>\
+                                                            <tr>\
+                                                                <td><strong>Final Amount :</strong></td>\
+                                                                <td>Rs. <span class="final_amount_'+ len+'"></span> </td>\
+                                                                <input type="hidden" placeholder="Final Amount" class="form-control" id="final_amount_'+ len+'" name="final_amount['+len+']" />\
+                                                            </tr>\
+                                                            <tr>\
+                                                                <td><strong>Profit(Original) Rate :</strong></td>\
+                                                                <td>Rs. <span class="original_rate_'+ len+'"></span> </td>\
+                                                                <input type="hidden" placeholder="Original Rate" class="form-control" id="original_rate_'+ len+'" name="original_rate['+len+']" />\
+                                                            </tr>\
+                                                            <tr>\
+                                                                <td><strong>Purchase Amount :</strong></td>\
+                                                                <td>Rs. <span class="purchase_amount_'+ len+'"></span></td>\
+                                                                <input type="hidden" placeholder="Purchase Amount" class="form-control" id="purchase_amount_'+ len+'" name="purchase_amount['+len+']" />\
+                                                            </tr>\
+                                                            <tr>\
+                                                                <td><strong>Sales Amount :</strong></td>\
+                                                                <td>Rs. <span class="sales_amount_'+ len+'"></span> </td>\
+                                                                <input type="hidden" placeholder="Sales Amount" class="form-control" id="sales_amount_'+ len+'" name="sales_amount['+len+']" />\
+                                                            </tr>\
+                                                            <tr>\
+                                                                <td><strong>Transportation charges :</strong></td>\
+                                                                <td>Rs. <span class="transportation_charges_view_'+ len+'"></span> </td>\
+                                                            </tr>\
+                                                            <tr>\
+                                                                <td><strong>Final Benefit :</strong></td>\
+                                                                <td>Rs. <span class="benefit_'+ len+'"></span> </td>\
+                                                                <input type="hidden" placeholder="Benefit In Rs" class="form-control" id="benefit_'+ len+'" name="benefit['+len+']" />\
+                                                            </tr>\
+                                                        </tbody>\
+                                                    </table>\
                                                 </div>\
                                             </div>\
-                                    </div>\
+                                        </div>\
                                     </div>\
                                 </div>\
                             </div>';
@@ -499,8 +572,8 @@
         // alert('as' + terms_len );
         var objTo = document.getElementById('notes_fields')
         var divtest = document.createElement("div");
-        divtest.setAttribute("class", "form-group notes removeclass"+terms_len);
-        var rdiv = 'removeclass'+terms_len;
+        divtest.setAttribute("class", "form-group notes removeclassnotes"+terms_len);
+        var rdiv = 'removeclassnotes'+terms_len;
         divtest.innerHTML = '<div class="col-sm-3"></div>\
                 <input type="hidden" id="TermsId" name="TermsId['+terms_len+']" value="0">\
                 <div class="form-group col-sm-7">\
@@ -520,9 +593,10 @@
         });
     }
     function remove_terms_fields(rid) {
+        console.log('remove_terms_fields', rid, $('.notes').length );
         // alert('asa' + rid);
         if($('.notes').length > 1) {
-            $('.removeclass'+rid).remove();
+            $('.removeclassnotes'+rid).remove();
         }
     }
     var v= $("#form").validate({

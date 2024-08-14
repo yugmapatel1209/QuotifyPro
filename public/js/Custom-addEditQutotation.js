@@ -21,8 +21,22 @@ document.addEventListener('DOMContentLoaded', function () {
     // $(".price_comparison_section_1").hide();
     //Temp commented for edit mode uncomment above lines
 
+    //For Edit screen show hide price_comparison_section
+    console.log($('.price_comparison_section').data('show-section'));
+    var showSection = $('.price_comparison_section').data('show-section') === true;
+
+    if (showSection) {
+        $('.price_comparison_section').show();
+        $('.price_comparison_section_1').show();
+    } else {
+        console.log('hide', showSection);
+        $('.price_comparison_section').hide();
+        $('.price_comparison_section_1').hide();
+    }
+
+
     $('#need_extra_price_comparison').on('ifChanged', function () {
-        alert('aaa')
+        // alert('aaa')
         var isChecked = $(this).prop('checked'); // Get the updated value of the checkbox
         // console.log('out', isChecked);
         if (isChecked) {
@@ -43,19 +57,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // $("#including_gst_" + len).on("keyup", function () {
     $('#Consecutive').on('keyup', ".including_gst", function () {
-        console.log("🚀 ~ len:", len, $('#excluding_gst_' + len).val())
-        console.log("🚀 ~ len:", len, $('.excluding_gst').val())
+        // console.log("🚀 ~ len:", len, $('#excluding_gst_' + len).val())
+        // console.log("🚀 ~ len:", len, $('.excluding_gst').val())
 
         var GST = $("#gst_percentage_" + len).val();
-
         var quantity = parseFloat($('#quantity_' + len).val());
         var including_gst = $(this).val();
         var excluding_gst = parseFloat($('#excluding_gst_' + len).val());
         var discount = parseFloat($('#discount_percentage_' + len).val());
+
         var profit = parseFloat($('#profit_percentage_' + len).val());
         // console.log({ profit, 'pr': $('#profit_percentage_' + len).val() })
         var transportation_charges = parseFloat($('#transportation_charges_' + len).val());
         const formattedGST = 1 + GST / 100;
+        console.log("🚀 ~ len & GST Amount :", len, GST, $("#gst_percentage_" + len).val(), { excluding_gst, formattedGST });
+
         const { final_amount, original_rate, purchase_amount, sales_amount, benefit, including_gst_amount, excluding_gst_amount, } = calc_result(formattedGST, including_gst, excluding_gst, quantity, discount, profit, transportation_charges);
         console.log({ final_amount, original_rate, purchase_amount, sales_amount, benefit, including_gst_amount, excluding_gst_amount, })
 
