@@ -7,6 +7,17 @@ password : 123456
 http://localhost/QuotifyPro/
 yugma@yopmail.com
 Admin@123
+
+
+########################### Github  ###################################
+yugmapatel1209@gmail.com
+C6U@tk5XseugNdR
+
+url = https://yugmapatel1209@github.com/yugmapatel1209/QuotifyPro.git
+
+command 
+git remote set-url origin https://yugmapatel1209@github.com/yugmapatel1209/QuotifyPro.git
+git push
 ####################################################################
 
 Artisane commands:
