@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{HomeController, QuotationController, EarthQuotationController, ExercisesController1};
+use App\Http\Controllers\{HomeController, QuotationController, ExercisesController1};
 
 
 /*
@@ -28,7 +28,7 @@ Route::resource('om', QuotationController::class);
 Route::post('update_om/{id}', [QuotationController::class, 'update']);
 Route::post('delete_om/{id}', [QuotationController::class, 'destroy']);
 
-Route::resource('earth', EarthQuotationController::class);
-Route::post('update_earth/{id}', [EarthQuotationController::class, 'update']);
+// Route::resource('earth', EarthQuotationController::class);
+// Route::post('update_earth/{id}', [EarthQuotationController::class, 'update']);
 
 Route::resource('exercises', ExercisesController1::class);

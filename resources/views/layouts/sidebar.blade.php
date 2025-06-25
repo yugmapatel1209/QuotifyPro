@@ -36,9 +36,9 @@
         <a href="{{ url('om')}}"<i class="fas fa-desktop"></i> <span class="nav-label">Om Electricals</span> </a>
     </li>
 
-    <li class="{{ Request::is('earth*') ? 'active' : '' }}">
+    <!-- <li class="{{ Request::is('earth*') ? 'active' : '' }}">
         <a href="{{ url('earth')}}"><i class="far fa-building"></i> <span class="nav-label">Earth Enterprise</span> </a>
-    </li>
+    </li> -->
 
 
 </ul>
