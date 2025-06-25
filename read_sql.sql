@@ -5,6 +5,8 @@ ALTER TABLE `quotations_master` ADD `final_amount` VARCHAR(255) NULL AFTER `disc
 
 
 
+
+
 ALTER TABLE `quotations_detail` CHANGE `material` `material` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 ALTER TABLE `quotations_detail` CHANGE `hsn_sac` `hsn_sac` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 ALTER TABLE `quotations_detail` CHANGE `description` `description` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
@@ -24,7 +26,7 @@ ALTER TABLE `quotations_master` CHANGE `rfq_number` `rfq_number` TEXT CHARACTER 
 
 ALTER TABLE `quotations_master` ADD `status` INT NULL DEFAULT '0' AFTER `is_active`;
 
-
+ALTER TABLE `quotations_detail` ADD `buyers_name` VARCHAR(100) NULL DEFAULT NULL AFTER `transportation_charges`;
 CREATE TABLE `users` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `username` varchar(150) NOT NULL,
