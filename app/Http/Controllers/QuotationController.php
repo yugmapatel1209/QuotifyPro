@@ -176,8 +176,12 @@ class QuotationController extends Controller
             $data['Sales Amount'][] = $obj->sales_amount;
             $data['Final Benefit'][] = $obj->benefit;
             $total_amount = $total_amount + $obj->amount;
+            $total_amount_gst = $total_amount_gst + (($obj->gst_percentage / 100) * $obj->amount); 
+            // $total_amount_and_gst = $total_amount_and_gst + ;
         }
         $extra_info['total_amount'] = $total_amount;
+        $extra_info['total_gst_amount'] = $total_amount_gst;
+        $extra_info['total_amount_and_gst'] = $total_amount + $total_amount_gst;
 
         $optional_data = ['Including GST Rs', 'Excluding GST Rs','Discount%','Profit%','Transportation charges Rs','Final Amount','Profit(Original) Rate','Purchase Amount','Sales Amount','Final Benefit'];
         // dd($extra_info);
@@ -200,6 +204,7 @@ class QuotationController extends Controller
         $data['make'] = $this->getMake();
         $data['unit'] = $this->getUnit();
         $data['hsn_sac'] = $this->getHSNSAC();
+        // dd($Quotation->details);
         return view('om-electricals.edit',  compact('Quotation','data'));
     }
     public function update($id, Request $request)
@@ -233,7 +238,9 @@ class QuotationController extends Controller
 
         //dought
         if($request->quotation_number) {
-            $input['quotation_number'] =date("Y") .'-'.date("-Y",strtotime("+1 year"))  .'/'.$request->quotation_number;
+            // $input['quotation_number'] =date("Y") .'-'.date("-Y",strtotime("+1 year"))  .'/'.$request->quotation_number;
+            
+            $input['quotation_number'] = date("Y") . '-' . date("Y", strtotime("+1 year")) . '/' . $request->quotation_number;
         }
         $ExercisesMaster = QuotationsMaster::where('id',$id)->update($input);
         $ids =$request->quotations_detail_ids;
@@ -257,6 +264,7 @@ class QuotationController extends Controller
                 $mode_data['hsn_sac'] =  $request->hsn_sac[$key];
                 $mode_data['description'] =  $request->description[$key];
                 $mode_data['make'] =  $request->make[$key];
+                $mode_data['delivery'] =  $request->delivery[$key];
                 $mode_data['quantity'] =  $quantity;
                 $mode_data['unit'] =  $request->unit[$key];
                 $mode_data['rate'] =  $request->rate[$key];

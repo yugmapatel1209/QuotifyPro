@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-| View Om Quotation
+| Quotation
 @endsection
 @section('style')
 <style>
@@ -8,6 +8,23 @@
 li.nav-header { display: none;}
 ul#side-menu { display: none;}
 .slideFile {    width: 100%; }​
+.row {
+    margin-top: -5px !important;
+}
+
+hr {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}
+/* .ibox-title {
+    height: 15px !important;
+} */
+.table {
+    margin-bottom: 0px;
+}
+.text-center {
+    margin-bottom: 20px;
+}
 /* .content_right { text-align: right;}
 .wizard > .steps a{background-color: #366490 ;color: #fff ;}
 .wizard > .content > .body {width: 100%;background-color: #e5edf3;}
@@ -31,15 +48,15 @@ ul#side-menu { display: none;}
         <div class="ibox float-e-margins">
             <div class="ibox-content">
 
-                    <div class="text-center" style="margin-bottom: 0px">
+                    <div class="text-center" style="margin-bottom: -20px">
                         @if($quotation->is_laterpad_image)
                             <img alt="image" class="img-fluid" src="{{ env('APP_URL').'/public/img/OMLatterPade.png' }}" style="max-width: 100%;" />
                         @else
                             <h2><b>Om Electricals</b></h2>
-                            <h3>  Govt. Approved Contractor,</h3>
-                            <h3> S/28 Swagat Enclave, Opp. Dediyasan G.I.D.C.,  Modhera Road, Mehsana-384002. </h3> <hr>
+                            <h4>  Govt. Approved Contractor,</h4>
+                            <h5> S/28 Swagat Enclave, Opp. Dediyasan G.I.D.C.,  Modhera Road, Mehsana-384002. </h5> <hr>
                         @endif
-                        <h2><b> Quotation - {{ $quotation->quotation_number}} </b></h2>
+                        <h4><b> Quotation - {{ $quotation->quotation_number}} </b></h4>
                         <button type="button" class="btn btn-sm btn-success m-t-n-xs no-print" id="toggleButton"> <i class="fa fa-plus"></i> Show/Hide Price Comparison</button>
                     </div>
 
@@ -180,8 +197,12 @@ ul#side-menu { display: none;}
                                                 <td>Rs. {{$extra_info['total_amount']}}</td>
                                             </tr>
                                             <tr>
+                                                <td><strong>TOTAL GST:</strong></td>
+                                                <td>Rs. {{$extra_info['total_gst_amount']}}</td>
+                                            </tr>
+                                            <tr>
                                                 <td><strong>TOTAL Amount with GST:</strong></td>
-                                                <td>Rs. {{$quotation->final_amount}}</td>
+                                                <td>Rs. {{$extra_info['total_amount_and_gst']}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -197,9 +218,9 @@ ul#side-menu { display: none;}
                                     @endif
                                     <br>
                                     <div class="text-center m-t-md">
-                                        <h4>If you have any questions about this price quote, please contact.</h4>
-                                        <h4>Devis, Mo:- 9408112342, E-mail:- omele11@yahoo.com</h4>
-                                        <h3>Thank you for Your Business!</h3>
+                                        <h5>If you have any questions about this price quote, please contact.</h5>
+                                        <h5>Devis, Mo:- 9408112342, E-mail:- omele11@yahoo.com</h5>
+                                        <h4>Thank you for Your Business!</h4>
                                     </div>
                                 </div>
                             </div>

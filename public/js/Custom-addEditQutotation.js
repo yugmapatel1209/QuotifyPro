@@ -10,7 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
         format: "yyyy-mm-dd"
 
     });
-    $("option:selected").prop("selected", false);
+    //disabled below line While edit create and issue need to check while create a new entry
+    // $("option:selected").prop("selected", false);
+
     //IsActive checkbox
     $('.i-checks').iCheck({
         checkboxClass: 'icheckbox_square-green',
@@ -55,167 +57,183 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    // $("#including_gst_" + len).on("keyup", function () {
+    // $("#including_gst_" + index).on("keyup", function () {
     $('#Consecutive').on('keyup', ".including_gst", function () {
         // console.log("🚀 ~ len:", len, $('#excluding_gst_' + len).val())
         // console.log("🚀 ~ len:", len, $('.excluding_gst').val())
+        var currentInput = $(this);
+        // Find the index or identifier of the current input field
+        var index = currentInput.attr('id').split('_').pop(); // Assuming the id is 'including_gst_X'
 
-        var GST = $("#gst_percentage_" + len).val();
-        var quantity = parseFloat($('#quantity_' + len).val());
+        var GST = $("#gst_percentage_" + index).val();
+        var quantity = parseFloat($('#quantity_' + index).val());
         var including_gst = $(this).val();
-        var excluding_gst = parseFloat($('#excluding_gst_' + len).val());
-        var discount = parseFloat($('#discount_percentage_' + len).val());
+        var excluding_gst = parseFloat($('#excluding_gst_' + index).val());
+        var discount = parseFloat($('#discount_percentage_' + index).val());
 
-        var profit = parseFloat($('#profit_percentage_' + len).val());
-        // console.log({ profit, 'pr': $('#profit_percentage_' + len).val() })
-        var transportation_charges = parseFloat($('#transportation_charges_' + len).val());
+        var profit = parseFloat($('#profit_percentage_' + index).val());
+        // console.log({ profit, 'pr': $('#profit_percentage_' + index).val() })
+        var transportation_charges = parseFloat($('#transportation_charges_' + index).val());
         const formattedGST = 1 + GST / 100;
-        console.log("🚀 ~ len & GST Amount :", len, GST, $("#gst_percentage_" + len).val(), { excluding_gst, formattedGST });
+        console.log("🚀 ~ index & GST Amount :", index, GST, $("#gst_percentage_" + index).val(), { excluding_gst, formattedGST });
 
         const { final_amount, original_rate, purchase_amount, sales_amount, benefit, including_gst_amount, excluding_gst_amount, } = calc_result(formattedGST, including_gst, excluding_gst, quantity, discount, profit, transportation_charges);
         console.log({ final_amount, original_rate, purchase_amount, sales_amount, benefit, including_gst_amount, excluding_gst_amount, })
 
-        $("#excluding_gst_" + len).val(excluding_gst_amount);
-        $("#final_amount_" + len).val(final_amount);
-        $(".final_amount_" + len).text(final_amount);
+        $("#excluding_gst_" + index).val(excluding_gst_amount);
+        $("#final_amount_" + index).val(final_amount);
+        $(".final_amount_" + index).text(final_amount);
 
-        $("#original_rate_" + len).val(original_rate);
-        $('.original_rate_' + len).text(original_rate);
+        $("#original_rate_" + index).val(original_rate);
+        $('.original_rate_' + index).text(original_rate);
 
-        $("#purchase_amount_" + len).val(purchase_amount);
-        $('.purchase_amount_' + len).text(purchase_amount);
+        $("#purchase_amount_" + index).val(purchase_amount);
+        $('.purchase_amount_' + index).text(purchase_amount);
 
-        $("#sales_amount_" + len).val(sales_amount);
-        $('.sales_amount_' + len).text(sales_amount);
+        $("#sales_amount_" + index).val(sales_amount);
+        $('.sales_amount_' + index).text(sales_amount);
 
-        $("#benefit_" + len).val(benefit);
-        $('.benefit_' + len).text(benefit);
+        $("#benefit_" + index).val(benefit);
+        $('.benefit_' + index).text(benefit);
 
-        $('.transportation_charges_view_' + len).text(transportation_charges);
+        $('.transportation_charges_view_' + index).text(transportation_charges);
     });
     $('#Consecutive').on('keyup', ".excluding_gst", function () {
-        var GST = $("#gst_percentage_" + len).val();
-        var quantity = parseFloat($('#quantity_' + len).val());
-        var including_gst = parseFloat($('#including_gst' + len).val());
+        var currentInput = $(this);
+        // Find the index or identifier of the current input field
+        var index = currentInput.attr('id').split('_').pop(); // Assuming the id is 'including_gst_X'
+        var GST = $("#gst_percentage_" + index).val();
+        console.log('In excluding_gst gst_percentage_value is ::', GST, " and index is ::", index);
+        var quantity = parseFloat($('#quantity_' + index).val());
+        var including_gst = parseFloat($('#including_gst' + index).val());
         var excluding_gst = $(this).val();
-        var discount = parseFloat($('#discount_percentage_' + len).val());
-        var profit = parseFloat($('#profit_percentage_' + len).val());
-        var transportation_charges = parseFloat($('#transportation_charges_' + len).val());
+        var discount = parseFloat($('#discount_percentage_' + index).val());
+        var profit = parseFloat($('#profit_percentage_' + index).val());
+        var transportation_charges = parseFloat($('#transportation_charges_' + index).val());
         const formattedGST = 1 + GST / 100;
         const { final_amount, original_rate, purchase_amount, sales_amount, benefit, including_gst_amount, excluding_gst_amount, } = calc_result(formattedGST, including_gst, excluding_gst, quantity, discount, profit, transportation_charges);
 
-        $("#including_gst_" + len).val(including_gst_amount);
+        $("#including_gst_" + index).val(including_gst_amount);
 
 
-        $("#final_amount_" + len).val(final_amount);
-        $(".final_amount_" + len).text(final_amount);
+        $("#final_amount_" + index).val(final_amount);
+        $(".final_amount_" + index).text(final_amount);
 
-        $("#original_rate_" + len).val(original_rate);
-        $('.original_rate_' + len).text(original_rate);
+        $("#original_rate_" + index).val(original_rate);
+        $('.original_rate_' + index).text(original_rate);
 
-        $("#purchase_amount_" + len).val(purchase_amount);
-        $('.purchase_amount_' + len).text(purchase_amount);
+        $("#purchase_amount_" + index).val(purchase_amount);
+        $('.purchase_amount_' + index).text(purchase_amount);
 
-        $("#sales_amount_" + len).val(sales_amount);
-        $('.sales_amount_' + len).text(sales_amount);
+        $("#sales_amount_" + index).val(sales_amount);
+        $('.sales_amount_' + index).text(sales_amount);
 
-        $("#benefit_" + len).val(benefit);
-        $('.benefit_' + len).text(benefit);
+        $("#benefit_" + index).val(benefit);
+        $('.benefit_' + index).text(benefit);
 
-        $('.transportation_charges_view_' + len).text(transportation_charges);
+        $('.transportation_charges_view_' + index).text(transportation_charges);
     });
 
-    // $("#discount_percentage_" + len).on("keyup", function () {
+    // $("#discount_percentage_" + index).on("keyup", function () {
     $('#Consecutive').on('keyup', ".discount_percentage", function () {
+        var currentInput = $(this);
+        // Find the index or identifier of the current input field
+        var index = currentInput.attr('id').split('_').pop(); // Assuming the id is 'including_gst_X'
         console.log('Key up in input: discount_percentage_   ', $(this).val());
-        var GST = $("#gst_percentage_" + len).val();
-        var quantity = parseFloat($('#quantity_' + len).val());
-        var including_gst = parseFloat($('#including_gst' + len).val());
-        var excluding_gst = parseFloat($('#excluding_gst_' + len).val());
+        var GST = $("#gst_percentage_" + index).val();
+        var quantity = parseFloat($('#quantity_' + index).val());
+        var including_gst = parseFloat($('#including_gst' + index).val());
+        var excluding_gst = parseFloat($('#excluding_gst_' + index).val());
         var discount = $(this).val();
-        var profit = parseFloat($('#profit_percentage_' + len).val());
-        var transportation_charges = parseFloat($('#transportation_charges_' + len).val());
+        var profit = parseFloat($('#profit_percentage_' + index).val());
+        var transportation_charges = parseFloat($('#transportation_charges_' + index).val());
         const formattedGST = 1 + GST / 100;
         const { final_amount, original_rate, purchase_amount, sales_amount, benefit, including_gst_amount, excluding_gst_amount, } = calc_result(formattedGST, including_gst, excluding_gst, quantity, discount, profit, transportation_charges);
 
-        // $("#including_gst" + len).val(including_gst_amount);
+        // $("#including_gst" + index).val(including_gst_amount);
 
-        $("#final_amount_" + len).val(final_amount);
-        $(".final_amount_" + len).text(final_amount);
+        $("#final_amount_" + index).val(final_amount);
+        $(".final_amount_" + index).text(final_amount);
 
-        $("#original_rate_" + len).val(original_rate);
-        $('.original_rate_' + len).text(original_rate);
+        $("#original_rate_" + index).val(original_rate);
+        $('.original_rate_' + index).text(original_rate);
 
-        $("#purchase_amount_" + len).val(purchase_amount);
-        $('.purchase_amount_' + len).text(purchase_amount);
+        $("#purchase_amount_" + index).val(purchase_amount);
+        $('.purchase_amount_' + index).text(purchase_amount);
 
-        $("#sales_amount_" + len).val(sales_amount);
-        $('.sales_amount_' + len).text(sales_amount);
+        $("#sales_amount_" + index).val(sales_amount);
+        $('.sales_amount_' + index).text(sales_amount);
 
-        $("#benefit_" + len).val(benefit);
-        $('.benefit_' + len).text(benefit);
+        $("#benefit_" + index).val(benefit);
+        $('.benefit_' + index).text(benefit);
 
-        $('.transportation_charges_view_' + len).text(transportation_charges);
+        $('.transportation_charges_view_' + index).text(transportation_charges);
     });
 
     $('#Consecutive').on('keyup', ".profit_percentage", function () {
+        var currentInput = $(this);
+        // Find the index or identifier of the current input field
+        var index = currentInput.attr('id').split('_').pop(); // Assuming the id is 'including_gst_X'
         // console.log('Key up in input: profit_percentage   ', $(this).val());
-        var GST = $("#gst_percentage_" + len).val();
-        var quantity = parseFloat($('#quantity_' + len).val());
-        var including_gst = parseFloat($('#including_gst' + len).val());
-        var excluding_gst = parseFloat($('#excluding_gst_' + len).val());
-        var discount = parseFloat($('#discount_percentage_' + len).val());
+        var GST = $("#gst_percentage_" + index).val();
+        var quantity = parseFloat($('#quantity_' + index).val());
+        var including_gst = parseFloat($('#including_gst' + index).val());
+        var excluding_gst = parseFloat($('#excluding_gst_' + index).val());
+        var discount = parseFloat($('#discount_percentage_' + index).val());
         var profit = $(this).val();
-        var transportation_charges = parseFloat($('#transportation_charges_' + len).val());
+        var transportation_charges = parseFloat($('#transportation_charges_' + index).val());
         const formattedGST = 1 + GST / 100;
         const { final_amount, original_rate, purchase_amount, sales_amount, benefit, including_gst_amount, excluding_gst_amount, } = calc_result(formattedGST, including_gst, excluding_gst, quantity, discount, profit, transportation_charges);
 
-        $("#final_amount_" + len).val(final_amount);
-        $(".final_amount_" + len).text(final_amount);
+        $("#final_amount_" + index).val(final_amount);
+        $(".final_amount_" + index).text(final_amount);
 
-        $("#original_rate_" + len).val(original_rate);
-        $('.original_rate_' + len).text(original_rate);
+        $("#original_rate_" + index).val(original_rate);
+        $('.original_rate_' + index).text(original_rate);
 
-        $("#purchase_amount_" + len).val(purchase_amount);
-        $('.purchase_amount_' + len).text(purchase_amount);
+        $("#purchase_amount_" + index).val(purchase_amount);
+        $('.purchase_amount_' + index).text(purchase_amount);
 
-        $("#sales_amount_" + len).val(sales_amount);
-        $('.sales_amount_' + len).text(sales_amount);
+        $("#sales_amount_" + index).val(sales_amount);
+        $('.sales_amount_' + index).text(sales_amount);
 
-        $("#benefit_" + len).val(benefit);
-        $('.benefit_' + len).text(benefit);
+        $("#benefit_" + index).val(benefit);
+        $('.benefit_' + index).text(benefit);
 
-        $('.transportation_charges_view_' + len).text(transportation_charges);
+        $('.transportation_charges_view_' + index).text(transportation_charges);
     });
 
     $('#Consecutive').on('keyup', ".transportation_charges", function () {
+        var currentInput = $(this);
+        // Find the index or identifier of the current input field
+        var index = currentInput.attr('id').split('_').pop(); // Assuming the id is 'including_gst_X'
         // console.log('Key up in input: transportation_charges   ', $(this).val());
-        var GST = $("#gst_percentage_" + len).val();
-        var quantity = parseFloat($('#quantity_' + len).val());
-        var including_gst = parseFloat($('#including_gst' + len).val());
-        var excluding_gst = parseFloat($('#excluding_gst_' + len).val());
-        var discount = parseFloat($('#discount_percentage_' + len).val());
-        var profit = parseFloat($('#profit_percentage_' + len).val());
+        var GST = $("#gst_percentage_" + index).val();
+        var quantity = parseFloat($('#quantity_' + index).val());
+        var including_gst = parseFloat($('#including_gst' + index).val());
+        var excluding_gst = parseFloat($('#excluding_gst_' + index).val());
+        var discount = parseFloat($('#discount_percentage_' + index).val());
+        var profit = parseFloat($('#profit_percentage_' + index).val());
         var transportation_charges = $(this).val();
         const formattedGST = 1 + GST / 100;
         const { final_amount, original_rate, purchase_amount, sales_amount, benefit, including_gst_amount, excluding_gst_amount, } = calc_result(formattedGST, including_gst, excluding_gst, quantity, discount, profit, transportation_charges);
 
-        $("#final_amount_" + len).val(final_amount);
-        $(".final_amount_" + len).text(final_amount);
+        $("#final_amount_" + index).val(final_amount);
+        $(".final_amount_" + index).text(final_amount);
 
-        $("#original_rate_" + len).val(original_rate);
-        $('.original_rate_' + len).text(original_rate);
+        $("#original_rate_" + index).val(original_rate);
+        $('.original_rate_' + index).text(original_rate);
 
-        $("#purchase_amount_" + len).val(purchase_amount);
-        $('.purchase_amount_' + len).text(purchase_amount);
+        $("#purchase_amount_" + index).val(purchase_amount);
+        $('.purchase_amount_' + index).text(purchase_amount);
 
-        $("#sales_amount_" + len).val(sales_amount);
-        $('.sales_amount_' + len).text(sales_amount);
+        $("#sales_amount_" + index).val(sales_amount);
+        $('.sales_amount_' + index).text(sales_amount);
 
-        $("#benefit_" + len).val(benefit);
-        $('.benefit_' + len).text(benefit);
+        $("#benefit_" + index).val(benefit);
+        $('.benefit_' + index).text(benefit);
 
-        $('.transportation_charges_view_' + len).text(transportation_charges);
+        $('.transportation_charges_view_' + index).text(transportation_charges);
     });
 
 

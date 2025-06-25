@@ -176,14 +176,14 @@
                                                 <input type="number" placeholder="Rate" class="form-control" id="rate" name="rate[{{$i}}]"  value="{!! $table->rate !!}" required/>
                                             </div>
                                             <label class="control-label col-sm-1">GST% </label>
-                                            <div class="col-sm-3">
-                                                <select class="form-control" id="gst_percentage_{{$i}}" name="gst_percentage[{{$i}}]" >
-                                                
-
-                                                    <option value="5"<?php if($table->gst_percentage == '5') { ?> selected="selected"<?php } ?>>5%</option>
-                                                    <option value="12"<?php if($table->gst_percentage == '12') { ?> selected="selected"<?php } ?>>12%</option>
-                                                    <option value="18"<?php if($table->gst_percentage == '18') { ?> selected="selected"<?php } ?>>18%</option>
-                                                    <option value="28"<?php if($table->gst_percentage == '28') { ?> selected="selected"<?php } ?>>28%</option>
+                                           <div class="col-sm-3">
+                                                <select class="form-control" id="gst_percentage_{{$i}}" name="gst_percentage[{{$i}}]">
+                                                    @foreach([5, 12, 18, 28] as $gst)
+                                                        <option value="{{ $gst }}"
+                                                            {{ (old("gst_percentage.$i", $table->gst_percentage) == $gst) ? 'selected' : '' }}>
+                                                            {{ $gst }}%
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
