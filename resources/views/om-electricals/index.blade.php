@@ -136,8 +136,8 @@
             // "sProcessing": "<div class='new_loader_dt'> <img src='{{env('APP_URL').'/'.'public/img/loading_spinner.gif'}}' alt='logo'> </div>",
             "sProcessing": "<div class='new_loader' style='background:none' ><div class='loading' id='loader'><i class='fa fa-spinner fa-spin spin_style'></i></div></div>",
         },
-        "order": [[ 1, "desc" ]],
-        "ordering": false, // disables all column ordering
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, // disables all column ordering
         searching: true,
         paging: true,
         ajax: {

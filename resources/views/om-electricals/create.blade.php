@@ -97,13 +97,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Is Laterpad Image</label>
+                        <!-- <div class="form-group"><label class="col-sm-2 control-label">Is Laterpad Image</label>
                             <div class="col-sm-10">
                                 <label class="checkbox-inline i-checks">
                                     <input type="checkbox" value="1" name="is_laterpad_image" id="is_laterpad_image" checked> Yes
                                     </label>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group"><label class="col-sm-2 control-label">Status</label>
                             <div class="col-sm-10">
                                 <label class="checkbox-inline i-checks">
@@ -120,13 +120,13 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group price_comparison_section_1">
+                        <!-- <div class="form-group price_comparison_section_1">
                             <label class="col-sm-2 control-label">Buyers Name</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="buyers_name" name="buyers_name"
                                 placeholder="Add buyer name if you selected the price comparison"  />
                             </div>
-                        </div>
+                        </div> -->
                         <div class="Consecutive" id="Consecutive">
                             {{-- <div class="text-center m-t-md" ><h3>Quotation Table</h3></div> --}}
                             <div class="form-group">
@@ -245,6 +245,13 @@
                                                                 <input type="number" placeholder="Charges in Rs" class="form-control transportation_charges" value="0" id="transportation_charges_1" name="transportation_charges[1]" />
                                                             </div>
                                                         </div>
+                                                         <div class="form-group">
+                                                            <label class="control-label col-sm-2">Buyers Name</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" placeholder="" class="form-control buyers_name" value="" id="buyers_name_1" name="buyers_name[1]" />
+                                                            </div>
+                                                        </div>
+                                                        
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <table class="table">
@@ -336,7 +343,7 @@
 
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-2">
-                                    <a href="{!! url('exercises') !!}" class="btn btn-white">Cancel</a>
+                                    <a href="{!! url('om') !!}" class="btn btn-white">Cancel</a>
                                     <button class="btn btn-primary" type="submit">Save changes</button>
                                     {{-- <button class="btn btn-primary" type="button" id="save_draft" >Save as Draft</button> --}}
                                     {{-- <button class="btn btn-primary" type="button" id="save_publish" >Save changes</button> --}}
@@ -451,6 +458,12 @@
                                                         <label class="control-label col-sm-2">Transportation charges</label>\
                                                         <div class="col-sm-3">\
                                                             <input type="number" placeholder="Charges in Rs" class="form-control transportation_charges" value="0" id="transportation_charges_'+ len+'" name="transportation_charges['+len+']" />\
+                                                        </div>\
+                                                    </div>\
+                                                     <div class="form-group">\
+                                                        <label class="control-label col-sm-2">Buyers Name</label>\
+                                                        <div class="col-sm-8">\
+                                                            <input type="text" placeholder="Buyers Name" class="form-control buyers_name" value="" id="buyers_name'+ len+'" name="buyers_name['+len+']" />\
                                                         </div>\
                                                     </div>\
                                                 </div>\

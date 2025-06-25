@@ -126,7 +126,8 @@ hr {
                                                     <th class="togglePriceComparison">Profit(Original) Rate</th>
                                                     <th class="togglePriceComparison">Purchase Amount </th>
                                                     <th class="togglePriceComparison">Sales Amount </th>
-                                                    <th class="togglePriceComparison">Final Benefit</th> --}}
+                                                    <th class="togglePriceComparison">Final Benefit</th>
+                                                    <th class="togglePriceComparison">Buyers Name</th> --}}
                                                     @php
                                                         // Determine which columns have data
                                                         $columns = [];
@@ -168,6 +169,7 @@ hr {
                                                     <td class="togglePriceComparison">{{ $table->purchase_amount}}</td>
                                                     <td class="togglePriceComparison">{{ $table->sales_amount}}</td>
                                                     <td class="togglePriceComparison">{{ $table->benefit}}</td>
+                                                    <td class="togglePriceComparison">{{ $table->buyers_name}}</td>
 
                                                 </tr>
                                                 @endforeach --}}

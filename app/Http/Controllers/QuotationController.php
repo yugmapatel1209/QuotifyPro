@@ -44,13 +44,15 @@ class QuotationController extends Controller
     public function store(Request $request)
     {
 
+        
         $input = [];
         $input = $request->all();
+        $input['rfq_number'] = $request->rfq_number ? $request->rfq_number : '';
         $input['valid_until'] = $request->valid_until . ' ' . $request->valid_until1;
         $input['is_active'] = isset($request['is_active']) ? 1 : 0;
         $input['is_laterpad_image'] = isset($request['is_laterpad_image']) ? 1: 0;
         $input['need_extra_price_comparison'] = isset($request['need_extra_price_comparison']) ? 1: 0;
-        $input['buyers_name'] = $request['buyers_name'];
+        $input['buyers_name'] = '';
         $input['final_amount'] = 1000000;
         if($request->quotation_number) {
             $input['quotation_number'] =date("Y") .'-'.date("Y",strtotime("+1 year")) .'/'.$input['quotation_number'];
@@ -93,6 +95,7 @@ class QuotationController extends Controller
                 $mode_data['purchase_amount'] = $request->purchase_amount[$key];
                 $mode_data['sales_amount'] = $request->sales_amount[$key];
                 $mode_data['benefit'] = $request->benefit[$key];
+                $mode_data['buyers_name'] = $request->buyers_name[$key];
 
                 // $total_duration = $total_duration + $Duration + 10;
                 QuotationsDetail::create($mode_data);
@@ -146,7 +149,8 @@ class QuotationController extends Controller
             'Profit(Original) Rate' => [],
             'Purchase Amount' => [],
             'Sales Amount' => [],
-            'Final Benefit' => []
+            'Final Benefit' => [],
+            'Buyers Name' => []
         ];
         $total_amount = 0;
         $total_amount_gst = 0;
@@ -175,6 +179,7 @@ class QuotationController extends Controller
             $data['Purchase Amount'][] = $obj->purchase_amount;
             $data['Sales Amount'][] = $obj->sales_amount;
             $data['Final Benefit'][] = $obj->benefit;
+            $data['Buyers Name'][] = $obj->buyers_name;
             $total_amount = $total_amount + $obj->amount;
             $total_amount_gst = $total_amount_gst + (($obj->gst_percentage / 100) * $obj->amount); 
             // $total_amount_and_gst = $total_amount_and_gst + ;
@@ -183,7 +188,7 @@ class QuotationController extends Controller
         $extra_info['total_gst_amount'] = $total_amount_gst;
         $extra_info['total_amount_and_gst'] = $total_amount + $total_amount_gst;
 
-        $optional_data = ['Including GST Rs', 'Excluding GST Rs','Discount%','Profit%','Transportation charges Rs','Final Amount','Profit(Original) Rate','Purchase Amount','Sales Amount','Final Benefit'];
+        $optional_data = ['Including GST Rs', 'Excluding GST Rs','Discount%','Profit%','Transportation charges Rs','Final Amount','Profit(Original) Rate','Purchase Amount','Sales Amount','Final Benefit', 'Buyers Name'];
         // dd($extra_info);
         return view('om-electricals.show',  compact('quotation','data', 'optional_data', 'extra_info'));
         // return view('om-electricals.show')->with('quotation', $quotation);
@@ -233,13 +238,12 @@ class QuotationController extends Controller
         $input['is_active'] = isset($request->is_active) ? 1 : 0;
         $input['is_laterpad_image'] = isset($request['is_laterpad_image']) ? 1: 0;
         $input['need_extra_price_comparison'] = isset($request['need_extra_price_comparison']) ? 1: 0;
-        $input['buyers_name'] = $request['buyers_name'];
+        $input['buyers_name'] = '';
 
 
         //dought
         if($request->quotation_number) {
-            // $input['quotation_number'] =date("Y") .'-'.date("-Y",strtotime("+1 year"))  .'/'.$request->quotation_number;
-            
+            //$input['quotation_number'] =date("Y") .'-'.date("-Y",strtotime("+1 year"))  .'/'.$request->quotation_number;
             $input['quotation_number'] = date("Y") . '-' . date("Y", strtotime("+1 year")) . '/' . $request->quotation_number;
         }
         $ExercisesMaster = QuotationsMaster::where('id',$id)->update($input);
@@ -283,10 +287,11 @@ class QuotationController extends Controller
                 $mode_data['final_amount'] = $request->final_amount[$key];
                 $mode_data['original_rate'] = $request->original_rate[$key];
                 $mode_data['purchase_amount'] = $request->purchase_amount[$key];
-                $mode_data['sales_amount'] = $request->sales_amount[$key];
-                $mode_data['benefit'] = $request->benefit[$key];
-
-                if($request->quotations_detail_ids[$key] > 0) {
+                $mode_data['sales_amount'] = $request->sales_amount[$key] ?? null;
+                $mode_data['benefit'] = $request->benefit[$key] ?? null;
+                $mode_data['buyers_name'] = $request->buyers_name[$key] ?? null;
+                // if($request->quotations_detail_ids[$key] > 0) {
+                if (isset($request->quotations_detail_ids[$key]) && $request->quotations_detail_ids[$key] > 0) {
                     QuotationsDetail::where(['id' => $request->quotations_detail_ids[$key] ])->update($mode_data);
                 } else {
                     echo '<br>create new entry';

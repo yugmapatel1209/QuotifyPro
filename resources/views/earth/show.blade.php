@@ -142,7 +142,7 @@ ul#side-menu { display: none;}
                                         @endforeach
                                     @endif
                                     <br>
-                                    <div class="text-center m-t-md">
+                                    <div class="text-center m-t-lg">
                                         <h4>If you have any questions about this price quote, please contact.</h4>
                                     </div>
                                 </div>

@@ -80,12 +80,6 @@ $client_name = $data['client_name'];
                                 <option value="Year(s)" > Year(s)</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">Is Laterpad Image</label>
-                        <div class="col-sm-10">
-                            <label class="checkbox-inline i-checks"> <input type="checkbox" value="1" name="is_laterpad_image" id="is_laterpad_image" <?php if($Quotation->is_laterpad_image == 1){echo "checked";}?>> Yes </label>
-                        </div>
-                    </div>
                     <div class="form-group"><label class="col-sm-2 control-label">Status</label>
                         <div class="col-sm-10">
                             <label class="checkbox-inline i-checks"> <input type="checkbox" value="1" name="is_active" id="is_active" checked> Yes </label>

@@ -5,7 +5,7 @@
 
 @section('top-content')
 <div class="col-lg-10">
-    <h2><a href="{{ url('/exercises') }}">Om Electricals</a> / Edit</h2>
+    <h2><a href="{{ url('/om') }}">Om Electricals</a> / Edit</h2>
 </div>
 @endsection
 @section('style')
@@ -85,11 +85,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group"><label class="col-sm-2 control-label">Is Laterpad Image</label>
+                    <!-- <div class="form-group"><label class="col-sm-2 control-label">Is Laterpad Image</label>
                         <div class="col-sm-10">
                             <label class="checkbox-inline i-checks"> <input type="checkbox" value="1" name="is_laterpad_image" id="is_laterpad_image" <?php if($Quotation->is_laterpad_image == 1){echo "checked";}?>> Yes </label>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group"><label class="col-sm-2 control-label">Status</label>
                         <div class="col-sm-10">
                             <label class="checkbox-inline i-checks"> <input type="checkbox" value="1" name="is_active" id="is_active" checked> Yes </label>
@@ -105,13 +105,13 @@
                             </div>
                         </div>
 
-                        <div class="form-group price_comparison_section_1">
+                        <!-- <div class="form-group price_comparison_section_1">
                             <label class="col-sm-2 control-label">Buyers Name</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="buyers_name" name="buyers_name" value="{!! $Quotation->buyers_name !!}"
                                 placeholder="Add buyer name if you selected the price comparison"  />
                             </div>
-                        </div>
+                        </div> -->
                     <div class="Consecutive" id="Consecutive">
                         {{-- <div class="text-center m-t-md" ><h3>Quotation Table</h3></div> --}}
                         <div class="form-group">
@@ -175,17 +175,25 @@
                                             <div class="col-sm-3">
                                                 <input type="number" placeholder="Rate" class="form-control" id="rate" name="rate[{{$i}}]"  value="{!! $table->rate !!}" required/>
                                             </div>
-                                            <label class="control-label col-sm-1">GST% </label>
-                                           <div class="col-sm-3">
-                                                <select class="form-control" id="gst_percentage_{{$i}}" name="gst_percentage[{{$i}}]">
-                                                    @foreach([5, 12, 18, 28] as $gst)
-                                                        <option value="{{ $gst }}"
-                                                            {{ (old("gst_percentage.$i", $table->gst_percentage) == $gst) ? 'selected' : '' }}>
-                                                            {{ $gst }}%
-                                                        </option>
-                                                    @endforeach
+                                            <label class="control-label col-sm-1">GST% {{ $table->gst_percentage }} </label>
+                                            <!-- <div class="col-sm-3">
+                                                <select class="form-control" id="gst_percentage_{{$i}}" name="gst_percentage[{{$i}}]" >
+                                                    <option value="5" {{ $table->gst_percentage == 5 ? 'selected' : '' }}> 5% </option>
+                                                    <option value="12" {{ $table->gst_percentage == 12 ? 'selected' : '' }}> 12% </option>
+                                                    <option value="18" {{ $table->gst_percentage == 18 ? 'selected' : '' }}> 18% </option>
+                                                    <option value="28" {{ $table->gst_percentage == 28 ? 'selected' : '' }}> 28% </option>
                                                 </select>
-                                            </div>
+                                            </div> -->
+                                            <div class="col-sm-3">
+                                            <select class="form-control" id="gst_percentage_{{$i}}" name="gst_percentage[{{$i}}]">
+                                                @foreach([5, 12, 18, 28] as $gst)
+                                                    <option value="{{ $gst }}"
+                                                        {{ (old("gst_percentage.$i", $table->gst_percentage) == $gst) ? 'selected' : '' }}>
+                                                        {{ $gst }}%
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                         </div>
                                         {{-- <div class="form-group">
                                             <label class="control-label col-sm-1">Profit% </label>
@@ -224,6 +232,12 @@
                                                         <label class="control-label col-sm-2">Transportation charges</label>
                                                         <div class="col-sm-3">
                                                             <input type="number" placeholder="Charges in Rs" class="form-control transportation_charges" id="transportation_charges_{{$i}}" name="transportation_charges[{{$i}}]"  value="{!! $table->transportation_charges !!}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-2">Buyers Name</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" placeholder="name" class="form-control buyers_name" id="buyers_name_{{$i}}" name="buyers_name[{{$i}}]"  value="{!! $table->buyers_name !!}"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -376,7 +390,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-2">
-                            <a href="{!! url('exercises') !!}" class="btn btn-white">Cancel</a>
+                            <a href="{!! url('om') !!}" class="btn btn-white">Cancel</a>
                             <button class="btn btn-primary" type="submit" >Save changes</button>
                             {{-- <button class="btn btn-primary" type="button" id="save_draft" >Save as Draft</button> --}}
                             {{-- <button class="btn btn-primary" type="button" id="save_publish" >Save changes</button> --}}
@@ -491,6 +505,12 @@
                                                         <label class="control-label col-sm-2">Transportation charges</label>\
                                                         <div class="col-sm-3">\
                                                             <input type="number" placeholder="Charges in Rs" class="form-control transportation_charges" value="0" id="transportation_charges_'+ len+'" name="transportation_charges['+len+']" />\
+                                                        </div>\
+                                                    </div>\
+                                                    <div class="form-group">\
+                                                        <label class="control-label col-sm-2">Buyer name</label>\
+                                                        <div class="col-sm-8">\
+                                                            <input type="text" placeholder="buyer name" class="form-control buyers_name" value="" id="buyers_name_'+ len+'" name="buyers_name['+len+']" />\
                                                         </div>\
                                                     </div>\
                                                 </div>\

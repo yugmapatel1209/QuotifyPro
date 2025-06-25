@@ -39,7 +39,7 @@ class QuotationsDetail extends Model
         'sales_amount',
         'transportation_charges',
         'benefit',
-        'buyer_name',
+        'buyers_name'
     ];
 
 }
