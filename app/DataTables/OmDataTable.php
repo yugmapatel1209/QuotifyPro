@@ -34,7 +34,7 @@ class OmDataTable
         // return $data;
     }
 
-    public function getExercise($id)
+    public function getQuotation($id)
     {
         $data =[];
         $data = QuotationsMaster::where('id',$id)->with('details','termsconditions')->orderBy('id', 'DESC')->get();
