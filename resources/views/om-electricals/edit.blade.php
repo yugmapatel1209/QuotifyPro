@@ -10,6 +10,7 @@
 @endsection
 @section('style')
 {{-- <link href="{{env('APP_URL').'/'.'public/css/plugins/summernote/summernote.css' }}" rel="stylesheet"> --}}
+<link href="{{ env('APP_URL') . '/' . 'public/css/plugins/summernote1/summernote.css' }}" rel="stylesheet">
 {{-- <link href="{{env('APP_URL').'/'.'public/css/plugins/summernote/summernote-bs3.css'}}" rel="stylesheet"> --}}
 <style>
     .ibox-tools a { font-size:17px; }
@@ -134,7 +135,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-sm-1">Description </label>
                                             <div class="col-lg-11 col-sm-10">
-                                                <textarea class="form-control" id="description" name="description[{{$i}}]" placeholder="Add description">{!! $table->description !!}</textarea>
+                                                <textarea class="summernote_editor form-control" id="description" name="description[{{$i}}]" placeholder="Add description">{!! $table->description !!}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -404,7 +405,6 @@
 @endsection
 
 @section('scripts')
-<script src="{{env('APP_URL').'/'.'public/js/plugins/summernote/summernote.min.js'}}"></script>
 <script>
     var len =$('.exers').length;
     function exercises_fields() {
@@ -424,7 +424,7 @@
                                         <div class="form-group">\
                                             <label class="control-label col-sm-1">Description </label>\
                                             <div class="col-lg-11 col-sm-10">\
-                                                <textarea class="form-control" id="description" name="description[' + len + ']" placeholder="Add description"></textarea>\
+                                                <textarea class="summernote_editor form-control" id="description" name="description[' + len + ']" placeholder="Add description"></textarea>\
                                             </div>\
                                         </div>\
                                         <div class="form-group">\
@@ -570,7 +570,9 @@
             var html = ' Row #' + no;
             $(this).html(html);
         });
+        summernote_editor();
     }
+    summernote_editor();
     function remove_exercise_fields(rid) {
         if($('.exers').length > 1) {
             $('.removeclass'+rid).remove();

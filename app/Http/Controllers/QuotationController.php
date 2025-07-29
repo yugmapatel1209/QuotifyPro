@@ -42,9 +42,7 @@ class QuotationController extends Controller
         return view('om-electricals.create', compact('data'));
     }
     public function store(Request $request)
-    {
-
-        
+    {        
         $input = [];
         $input = $request->all();
         $input['rfq_number'] = $request->rfq_number ? $request->rfq_number : '';
@@ -53,12 +51,15 @@ class QuotationController extends Controller
         $input['is_laterpad_image'] = isset($request['is_laterpad_image']) ? 1: 0;
         $input['need_extra_price_comparison'] = isset($request['need_extra_price_comparison']) ? 1: 0;
         $input['buyers_name'] = '';
+        $input['created_by'] = Auth::user()->id ?? '';
         $input['final_amount'] = 1000000;
         if($request->quotation_number) {
             $input['quotation_number'] =date("Y") .'-'.date("Y",strtotime("+1 year")) .'/'.$input['quotation_number'];
         }
         // return  $input;
-        // dd($request->all());  die;
+        // echo '<pre>';  print_r($request->all()); 
+        // dd($request->all()); 
+        // die;
         $QuotationsMaster = QuotationsMaster::create($input);
         $QuotationsMasterId = $QuotationsMaster->id;
         // $ExercisesMasterId = 1;
@@ -126,7 +127,7 @@ class QuotationController extends Controller
             return redirect(route('om.index'))->with('error', 'Quotation not found');
         }
         // Check this function in OmDataTable .
-        $quotation = $this->dataTable->getExercise($id);
+        $quotation = $this->dataTable->getQuotation($id);
 
         $data = [
             'Sr.No' => [],
@@ -200,7 +201,7 @@ class QuotationController extends Controller
         if (empty($quotations)) {
             return redirect(route('om.index'))->with('error', 'Quotation not found');
         }
-        $Quotation = $this->dataTable->getExercise($id);
+        $Quotation = $this->dataTable->getQuotation($id);
         $data = [];
         $data['licence'] = $this->getLicences();
         $data['client_company'] = $this->getClientCompany();
@@ -238,8 +239,8 @@ class QuotationController extends Controller
         $input['is_active'] = isset($request->is_active) ? 1 : 0;
         $input['is_laterpad_image'] = isset($request['is_laterpad_image']) ? 1: 0;
         $input['need_extra_price_comparison'] = isset($request['need_extra_price_comparison']) ? 1: 0;
-        $input['buyers_name'] = '';
-
+        // $input['buyers_name'] = '';
+        $input['created_by'] = Auth::user()->id ?? '';
 
         //dought
         if($request->quotation_number) {
@@ -331,6 +332,14 @@ class QuotationController extends Controller
     }
     public function destroy($id)
     {
+        $QuotationsMaster = QuotationsMaster::find($id);
+         if (empty($ExercisesMaster)) {
+            Flash::error('Exercise not found');
+            return redirect(route('exercises.index'));
+        }
+        QuotationsMaster::destroy($id);
+        // QuotationsMaster::where('ExercisesMasterId', $id)->update(['IsDelete' => 1]);
+        return $this->responseSuccess('Deleted Successfully.');
         // $ExercisesMaster = ExercisesMaster::find($id);
         // if (empty($ExercisesMaster)) {
         //     Flash::error('Exercise not found');

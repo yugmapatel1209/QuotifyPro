@@ -24,6 +24,12 @@ class Controller extends BaseController
         // return QuotationsMaster::pluck('client_name');
         return QuotationsMaster::select('client_name')->distinct()->where('client_name','!=','')->get()->pluck('client_name');
     }
+    function getQuotationNumber() {
+        return QuotationsMaster::select('quotation_number')->distinct()->where('quotation_number','!=','')->get()->pluck('quotation_number');
+    }
+    function getQuotations() {
+        return QuotationsMaster::select('id','quotation_number')->where('quotation_number','!=','')->get();
+    }
     function getMaterial() {
         return QuotationsDetail::select('material')->distinct()->where('material','!=','')->get()->pluck('material');
     }

@@ -148,7 +148,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-sm-1">Description </label>
                                                 <div class="col-lg-11 col-sm-10">
-                                                    <textarea class="form-control" id="description" name="description[1]" placeholder="Add description"></textarea>
+                                                    <textarea class="summernote_editor form-control" id="description" name="description[1]" placeholder="Add description">Add description</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -377,7 +377,7 @@
                                         <div class="form-group">\
                                             <label class="control-label col-sm-1">Description </label>\
                                             <div class="col-lg-11 col-sm-10">\
-                                                <textarea class="form-control" id="description" name="description[' + len + ']" placeholder="Add description"></textarea>\
+                                                <textarea class="form-control summernote_editor" id="description" name="description[' + len + ']" placeholder="Add description"></textarea>\
                                             </div>\
                                         </div>\
                                         <div class="form-group">\
@@ -524,7 +524,7 @@
             var html = ' Row #' + no;
             $(this).html(html);
         });
-
+        summernote_editor();
         // $("#including_gst_" + len).on("keyup", function () {
         //     var GST = $("#gst_percentage_" + len).val();
         //     var quantity = parseFloat($('#quantity').val());
@@ -555,6 +555,7 @@
         // });
 
     }
+    summernote_editor();
     function remove_exercise_fields(rid) {
         if ($('.exers').length > 1) {
             $('.removeclass' + rid).remove();

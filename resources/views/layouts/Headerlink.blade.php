@@ -26,3 +26,4 @@
 
 <link href="{{  asset('public/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
 <link href="{{  asset('public/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">

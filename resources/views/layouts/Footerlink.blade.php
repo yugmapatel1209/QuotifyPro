@@ -41,7 +41,7 @@
 
 <!-- jQuery UI -->
 {{-- disable this js for set the summernote js.  Enable it if required in future --}}
-{{-- <script src="{{env('APP_URL').'/'.'public/js/plugins/jquery-ui/jquery-ui.min.js'}}"></script> --}}
+<script src="{{env('APP_URL').'/'.'public/js/plugins/jquery-ui/jquery-ui.min.js'}}"></script> 
 
 <!-- Toastr -->
 <script src="{{ asset('public/js/plugins/toastr/toastr.min.js') }}"></script>
@@ -63,3 +63,6 @@
 
 <script src="{{ asset('public/js/bootstrap3-typeahead.min.js') }}"></script>
 <script src="{{ asset('public/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+
+<script src="{{asset('public/js/plugins/summernote1/summernote.min.js') }}"></script> 

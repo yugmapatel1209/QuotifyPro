@@ -165,7 +165,8 @@
                 }
             },{
                 "sortable": false,
-                "data": "ExerciseId",
+                // "data": "ExerciseId",
+                "data": "id",
                 "render": function (data, type, row) {
                     var button = '<a href="{{ url('om') }}' + '/' + row['id']  + '/edit" class="product-table-info" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>';
                     button += '<a href="{{ url('om') }}' + '/' + row['id'] + '" class="product-table-info" data-toggle="tooltip" title="View" data-original-title="View"><i class="fa fa-eye"></i></a>';
@@ -174,7 +175,7 @@
                 }
             }
         ], 'fnCreatedRow': function (nRow, aData, iDataIndex) {
-            $(nRow).attr('id', aData.ExerciseId); // or whatever you choose to set as the id
+            $(nRow).attr('id', aData.id); // or whatever you choose to set as the id
         }
     });
     $('#search-form').on('submit', function(e) {

@@ -185,7 +185,7 @@ hr {
                                                 @for($i = 0; $i < $rowCount; $i++)
                                                 <tr>
                                                     @foreach($columns as $index => $column)
-                                                        <td class="{{array_search($index, $optional_data) !== false ? 'togglePriceComparison' : '' }}">{{ $column[$i] ?? '' }} </td>
+                                                        <td class="{{array_search($index, $optional_data) !== false ? 'togglePriceComparison' : '' }}">{!! $column[$i] ?? '' !!} </td>
                                                     @endforeach
                                                 </tr>
                                                 @endfor
