@@ -78,4 +78,20 @@ ALTER TABLE `quotations_detail` ADD `benefit` VARCHAR(30) NULL DEFAULT NULL AFTE
 ALTER TABLE `quotations_master` ADD `need_extra_price_comparison` TINYINT NOT NULL DEFAULT '0' AFTER `is_laterpad_image`;
 ALTER TABLE `quotations_master` ADD `buyers_name` VARCHAR(100) NULL DEFAULT NULL AFTER `need_extra_price_comparison`;
 
+
+
 ###########################################################################################################
+Purchase order requirement
+
+
+
+buyers name
+Order Pending
+Order Done
+PI Pending
+PI Recevird
+Payment penindg
+payment done %
+Material penindg
+Material recevird
+Bill Number

@@ -33,7 +33,11 @@
     </li> --}}
 
     <li class="{{ Request::is('om*') ? 'active' : '' }}">
-        <a href="{{ url('om')}}"<i class="fas fa-desktop"></i> <span class="nav-label">Om Electricals</span> </a>
+        <a href="{{ url('om')}}"<i class="fa fa-quote-left"></i> <span class="nav-label">Quotation</span> </a>
+    </li>
+    
+    <li class="{{ Request::is('om*') ? 'active' : '' }}">
+        <a href="{{ url('ompo')}}"<i class="fa fa-shopping-cart"></i> <span class="nav-label">Purchase Order</span> </a>
     </li>
 
     <!-- <li class="{{ Request::is('earth*') ? 'active' : '' }}">

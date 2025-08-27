@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\QuotationsDetail;
 use App\Models\QuotationsMaster;
+use App\Models\PurchaseOrder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -42,4 +43,8 @@ class Controller extends BaseController
     function getHSNSAC() {
         return QuotationsDetail::select('hsn_sac')->distinct()->where('hsn_sac','!=','')->get()->pluck('hsn_sac');
     }
+    function getPOId() {
+        return PurchaseOrder::select('po_number')->distinct()->where('po_number','!=','')->get()->pluck('po_number');
+    }
+    
 }
